@@ -1,4 +1,4 @@
-![Liferay Mobile SDK logo](../../../logo.png)
+![Liferay Mobile SDK logo](https://github.com/liferay/liferay-mobile-sdk/raw/master/logo.png)
 
 # Liferay Push for Android
 
