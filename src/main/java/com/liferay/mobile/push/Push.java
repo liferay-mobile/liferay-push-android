@@ -19,6 +19,10 @@ import com.liferay.mobile.android.service.SessionImpl;
 import com.liferay.mobile.android.task.callback.typed.GenericAsyncTaskCallback;
 import com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -53,9 +57,28 @@ public class Push {
 		}
 	}
 
-	public void send(long userId, JSONObject notification) {
+	public void send(List<Long> toUserIds, JSONObject notification) {
 		try {
-			getService().sendPushNotification(userId, notification.toString());
+			JSONArray toUserIdsJSONArray = new JSONArray();
+
+			for (long toUserId : toUserIds) {
+				toUserIdsJSONArray.put(toUserId);
+			}
+
+			getService().sendPushNotification(
+				toUserIdsJSONArray, notification.toString());
+		}
+		catch (Exception e) {
+			onFailure(e);
+		}
+	}
+
+	public void send(long toUserId, JSONObject notification) {
+		try {
+			List<Long> toUserIds = new ArrayList<Long>();
+			toUserIds.add(toUserId);
+
+			send(toUserIds, notification);
 		}
 		catch (Exception e) {
 			onFailure(e);
@@ -107,14 +130,14 @@ public class Push {
 		});
 	}
 
+	protected PushNotificationsDeviceService getService() {
+		return new PushNotificationsDeviceService(_session);
+	}
+
 	protected void onFailure(Exception e) {
 		if (_onFailure != null) {
 			_onFailure.onFailure(e);
 		}
-	}
-	
-	protected PushNotificationsDeviceService getService() {
-		return new PushNotificationsDeviceService(_session);
 	}
 
 	private OnFailure _onFailure;
