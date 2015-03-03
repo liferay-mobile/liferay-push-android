@@ -78,13 +78,32 @@ public class PushNotificationsDeviceService extends BaseService {
 		return _result.getJSONObject(0);
 	}
 
-	public void sendPushNotification(long toUserId, String payload) throws Exception {
+	public void sendPushNotification(JSONArray toUserIds, String payload) throws Exception {
 		JSONObject _command = new JSONObject();
 
 		try {
 			JSONObject _params = new JSONObject();
 
-			_params.put("toUserId", toUserId);
+			_params.put("toUserIds", toUserIds);
+			_params.put("payload", payload);
+
+			_command.put("/push-notifications-portlet/pushnotificationsdevice/send-push-notification", _params);
+		}
+		catch (JSONException _je) {
+			throw new Exception(_je);
+		}
+
+		session.invoke(_command);
+	}
+
+	public void sendPushNotification(String platform, JSONArray tokens, String payload) throws Exception {
+		JSONObject _command = new JSONObject();
+
+		try {
+			JSONObject _params = new JSONObject();
+
+			_params.put("platform", platform);
+			_params.put("tokens", tokens);
 			_params.put("payload", payload);
 
 			_command.put("/push-notifications-portlet/pushnotificationsdevice/send-push-notification", _params);
