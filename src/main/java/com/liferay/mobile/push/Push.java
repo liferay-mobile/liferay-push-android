@@ -14,10 +14,16 @@
 
 package com.liferay.mobile.push;
 
+import android.content.Context;
+
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
 import com.liferay.mobile.android.task.callback.typed.GenericAsyncTaskCallback;
 import com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService;
+import com.liferay.mobile.push.bus.BusUtil;
+import com.liferay.mobile.push.task.GCMRegisterAsyncTask;
+
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +54,21 @@ public class Push {
 		return this;
 	}
 
+	public void register(Context context, String senderId) {
+		try {
+			BusUtil.register(this);
+
+			GCMRegisterAsyncTask task = new GCMRegisterAsyncTask(
+				context, senderId);
+
+			task.execute();
+		}
+		catch (Exception e) {
+			onFailure(e);
+		}
+	}
+
+	@Subscribe
 	public void register(String registrationId) {
 		try {
 			getService().addPushNotificationsDevice(registrationId, ANDROID);
@@ -134,7 +155,10 @@ public class Push {
 		return new PushNotificationsDeviceService(_session);
 	}
 
+	@Subscribe
 	protected void onFailure(Exception e) {
+		BusUtil.unregister(this);
+
 		if (_onFailure != null) {
 			_onFailure.onFailure(e);
 		}
