@@ -20,12 +20,18 @@ import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
 import com.liferay.mobile.push.exception.UnavailableGooglePlayServicesException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+
+import static junit.framework.Assert.*;
 
 /**
  * @author Bruno Farache
@@ -34,13 +40,53 @@ import org.robolectric.annotation.Config;
 @Config(manifest = "android/src/main/AndroidManifest.xml", emulateSdk = 18)
 public class PushTest {
 
-	@Test(expected = UnavailableGooglePlayServicesException.class)
-	public void register() throws Exception {
+	@Before
+	public void before() {
 		Authentication auth = new BasicAuthentication(
 			"test@liferay.com", "test");
 
 		Session session = new SessionImpl("http://localhost:8080", auth);
-		Push.with(session).register(Robolectric.application, "");
+		push = Push.with(session);
 	}
+
+	@Test
+	public void register() throws Exception {
+		final String token = "123";
+
+		push
+			.onSuccess(new Push.OnSuccess() {
+
+				@Override
+				public void onSuccess(JSONObject device) {
+					try {
+						assertNotNull(device);
+						assertEquals("android", device.getString("platform"));
+						assertEquals(token, device.getString("token"));
+					}
+					catch (JSONException je) {
+						fail();
+					}
+				}
+
+			})
+			.onFailure(new Push.OnFailure() {
+
+				@Override
+				public void onFailure(Exception e) {
+					fail(e.getMessage());
+				}
+
+			})
+			.register(token);
+
+		Robolectric.runBackgroundTasks();
+	}
+
+	@Test(expected = UnavailableGooglePlayServicesException.class)
+	public void unavailableGooglePlayService() throws Exception {
+		push.register(Robolectric.application, "");
+	}
+
+	protected Push push;
 
 }

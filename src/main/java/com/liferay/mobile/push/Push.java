@@ -18,7 +18,7 @@ import android.content.Context;
 
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
-import com.liferay.mobile.android.task.callback.typed.GenericAsyncTaskCallback;
+import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
 import com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService;
 import com.liferay.mobile.push.bus.BusUtil;
 import com.liferay.mobile.push.task.GCMRegisterAsyncTask;
@@ -116,13 +116,13 @@ public class Push {
 
 	public interface OnSuccess {
 
-		public void onSuccess(Object result);
+		public void onSuccess(JSONObject jsonObject);
 
 	}
 
 	protected Push(Session session) {
 		_session = new SessionImpl(session);
-		_session.setCallback(new GenericAsyncTaskCallback() {
+		_session.setCallback(new JSONObjectAsyncTaskCallback() {
 
 			@Override
 			public void onFailure(Exception e) {
@@ -130,15 +130,10 @@ public class Push {
 			}
 
 			@Override
-			public void onSuccess(Object result) {
+			public void onSuccess(JSONObject jsonObject) {
 				if (_onSuccess != null) {
-					_onSuccess.onSuccess(result);
+					_onSuccess.onSuccess(jsonObject);
 				}
-			}
-
-			@Override
-			public Object transform(Object obj) throws Exception {
-				return obj;
 			}
 
 		});
