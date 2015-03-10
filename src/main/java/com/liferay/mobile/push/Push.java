@@ -42,6 +42,15 @@ public class Push {
 		return new Push(session);
 	}
 
+	@Subscribe
+	public void onFailure(Exception e) {
+		BusUtil.unregister(this);
+
+		if (_onFailure != null) {
+			_onFailure.onFailure(e);
+		}
+	}
+
 	public Push onFailure(OnFailure onFailure) {
 		_onFailure = onFailure;
 
@@ -54,7 +63,7 @@ public class Push {
 		return this;
 	}
 
-	public void register(Context context, String senderId) {
+	public void register(Context context, String senderId) throws Exception {
 		try {
 			BusUtil.register(this);
 
@@ -64,55 +73,39 @@ public class Push {
 			task.execute();
 		}
 		catch (Exception e) {
-			onFailure(e);
+			BusUtil.unregister(this);
+
+			throw e;
 		}
 	}
 
 	@Subscribe
-	public void register(String registrationId) {
-		try {
-			getService().addPushNotificationsDevice(registrationId, ANDROID);
-		}
-		catch (Exception e) {
-			onFailure(e);
-		}
+	public void register(String registrationId) throws Exception {
+		getService().addPushNotificationsDevice(registrationId, ANDROID);
 	}
 
-	public void send(List<Long> toUserIds, JSONObject notification) {
-		try {
-			JSONArray toUserIdsJSONArray = new JSONArray();
+	public void send(List<Long> toUserIds, JSONObject notification)
+		throws Exception {
 
-			for (long toUserId : toUserIds) {
-				toUserIdsJSONArray.put(toUserId);
-			}
+		JSONArray toUserIdsJSONArray = new JSONArray();
 
-			getService().sendPushNotification(
-				toUserIdsJSONArray, notification.toString());
+		for (long toUserId : toUserIds) {
+			toUserIdsJSONArray.put(toUserId);
 		}
-		catch (Exception e) {
-			onFailure(e);
-		}
+
+		getService().sendPushNotification(
+			toUserIdsJSONArray, notification.toString());
 	}
 
-	public void send(long toUserId, JSONObject notification) {
-		try {
-			List<Long> toUserIds = new ArrayList<Long>();
-			toUserIds.add(toUserId);
+	public void send(long toUserId, JSONObject notification) throws Exception {
+		List<Long> toUserIds = new ArrayList<Long>();
+		toUserIds.add(toUserId);
 
-			send(toUserIds, notification);
-		}
-		catch (Exception e) {
-			onFailure(e);
-		}
+		send(toUserIds, notification);
 	}
 
-	public void unregister(String registrationId) {
-		try {
-			getService().deletePushNotificationsDevice(registrationId);
-		}
-		catch (Exception e) {
-			onFailure(e);
-		}
+	public void unregister(String registrationId) throws Exception {
+		getService().deletePushNotificationsDevice(registrationId);
 	}
 
 	public interface OnFailure {
@@ -153,15 +146,6 @@ public class Push {
 
 	protected PushNotificationsDeviceService getService() {
 		return new PushNotificationsDeviceService(_session);
-	}
-
-	@Subscribe
-	protected void onFailure(Exception e) {
-		BusUtil.unregister(this);
-
-		if (_onFailure != null) {
-			_onFailure.onFailure(e);
-		}
 	}
 
 	private OnFailure _onFailure;
