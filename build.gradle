@@ -107,14 +107,14 @@ task release(type: Copy, dependsOn: install) {
 	exclude "${project.name}-debug.aar"
 
 	rename { String name ->
-		name.replace("${project.name}-release", "${archivesBaseName}-${version}")
+		name.replace("${project.name}-release", "${project.name}-${version}")
 	}
 
 	rename { String name ->
-		name.replace('pom-default.xml', "${archivesBaseName}-${version}.pom")
+		name.replace('pom-default.xml', "${project.name}-${version}.pom")
 	}
 
 	doLast {
-		signing.sign file("build/release/${archivesBaseName}-${version}.pom")
+		signing.sign file("build/release/${project.name}-${version}.pom")
 	}
 }
