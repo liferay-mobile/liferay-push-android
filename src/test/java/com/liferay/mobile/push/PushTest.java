@@ -14,13 +14,18 @@
 
 package com.liferay.mobile.push;
 
+import com.liferay.mobile.android.auth.Authentication;
+import com.liferay.mobile.android.auth.basic.BasicAuthentication;
+import com.liferay.mobile.android.service.Session;
+import com.liferay.mobile.android.service.SessionImpl;
+import com.liferay.mobile.push.exception.UnavailableGooglePlayServicesException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author Bruno Farache
@@ -29,9 +34,13 @@ import static org.junit.Assert.assertTrue;
 @Config(manifest = "android/src/main/AndroidManifest.xml", emulateSdk = 18)
 public class PushTest {
 
-	@Test
+	@Test(expected = UnavailableGooglePlayServicesException.class)
 	public void register() throws Exception {
-		assertTrue(false);
+		Authentication auth = new BasicAuthentication(
+			"test@liferay.com", "test");
+
+		Session session = new SessionImpl("http://localhost:8080", auth);
+		Push.with(session).register(Robolectric.application, "");
 	}
 
 }
