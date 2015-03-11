@@ -23,7 +23,7 @@ import com.liferay.mobile.android.service.SessionImpl;
 import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
 import com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService;
 import com.liferay.mobile.push.bus.BusUtil;
-import com.liferay.mobile.push.task.GCMRegisterAsyncTask;
+import com.liferay.mobile.push.task.GoogleCloudMessagingAsyncTask;
 import com.liferay.mobile.push.util.GoogleServices;
 
 import com.squareup.otto.Subscribe;
@@ -141,7 +141,7 @@ public class Push {
 		try {
 			BusUtil.register(this);
 
-			AsyncTask task = new GCMRegisterAsyncTask(
+			AsyncTask task = new GoogleCloudMessagingAsyncTask(
 				context, senderId, googleServices);
 
 			task.execute();

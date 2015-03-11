@@ -27,9 +27,10 @@ import com.liferay.mobile.push.util.GoogleServices;
 /**
  * @author Bruno Farache
  */
-public class GCMRegisterAsyncTask extends AsyncTask<Object, Void, String> {
+public class GoogleCloudMessagingAsyncTask
+	extends AsyncTask<Object, Void, String> {
 
-	public GCMRegisterAsyncTask(
+	public GoogleCloudMessagingAsyncTask(
 			Context context, String senderId, GoogleServices googleServices)
 		throws UnavailableGooglePlayServicesException {
 
@@ -67,7 +68,7 @@ public class GCMRegisterAsyncTask extends AsyncTask<Object, Void, String> {
 	}
 
 	private static final String _TAG =
-		GCMRegisterAsyncTask.class.getSimpleName();
+		GoogleCloudMessagingAsyncTask.class.getSimpleName();
 
 	private Context _context;
 	private Exception _exception;
