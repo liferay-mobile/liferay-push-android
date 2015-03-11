@@ -16,17 +16,11 @@ package com.liferay.mobile.push;
 
 import android.content.Context;
 
-import android.os.AsyncTask;
-
 import com.liferay.mobile.android.auth.Authentication;
 import com.liferay.mobile.android.auth.basic.BasicAuthentication;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
-import com.liferay.mobile.push.exception.UnavailableGooglePlayServicesException;
-import com.liferay.mobile.push.task.GCMRegisterAsyncTask;
 import com.liferay.mobile.push.util.GoogleServices;
-
-import java.io.IOException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +34,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Bruno Farache
@@ -91,26 +86,14 @@ public class PushTest {
 
 	@Test
 	public void registerWithSenderId() throws Exception {
+		GoogleServices googleServices = mock(GoogleServices.class);
+		Context context = Robolectric.application;
+		String senderId = "senderId";
+
 		final String registrationId = "123";
 
-		GoogleServices googleServices = new GoogleServices() {
-
-			@Override
-			public String getRegistrationId(Context context, String senderId)
-				throws IOException {
-
-				return registrationId;
-			}
-
-			@Override
-			public void isGooglePlayServicesAvailable(Context context)
-				throws UnavailableGooglePlayServicesException {
-			}
-
-		};
-
-		AsyncTask task = new GCMRegisterAsyncTask(
-			Robolectric.application, "sender_id", googleServices);
+		when(googleServices.getRegistrationId(context, senderId))
+			.thenReturn(registrationId);
 
 		push.onSuccess(new Push.OnSuccess() {
 
@@ -126,7 +109,7 @@ public class PushTest {
 				}
 			}
 
-		}).register(task);
+		}).register(context, senderId, googleServices);
 
 		Robolectric.runBackgroundTasks();
 	}

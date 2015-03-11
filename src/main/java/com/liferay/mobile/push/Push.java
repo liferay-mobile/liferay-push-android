@@ -67,10 +67,7 @@ public class Push {
 	}
 
 	public void register(Context context, String senderId) throws Exception {
-		AsyncTask task = new GCMRegisterAsyncTask(
-			context, senderId, new GoogleServices());
-
-		register(task);
+		register(context, senderId, new GoogleServices());
 	}
 
 	@Subscribe
@@ -137,9 +134,15 @@ public class Push {
 		return new PushNotificationsDeviceService(_session);
 	}
 
-	protected void register(AsyncTask task) throws Exception {
+	protected void register(
+			Context context, String senderId, GoogleServices googleServices)
+		throws Exception {
+
 		try {
 			BusUtil.register(this);
+
+			AsyncTask task = new GCMRegisterAsyncTask(
+				context, senderId, googleServices);
 
 			task.execute();
 		}
