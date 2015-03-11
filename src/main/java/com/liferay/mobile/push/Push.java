@@ -67,7 +67,19 @@ public class Push {
 	}
 
 	public void register(Context context, String senderId) throws Exception {
-		register(context, senderId, new GoogleServices());
+		try {
+			BusUtil.register(this);
+
+			AsyncTask task = new GoogleCloudMessagingAsyncTask(
+				context, senderId, _googleServices);
+
+			task.execute();
+		}
+		catch (Exception e) {
+			BusUtil.unregister(this);
+
+			throw e;
+		}
 	}
 
 	@Subscribe
@@ -134,25 +146,11 @@ public class Push {
 		return new PushNotificationsDeviceService(_session);
 	}
 
-	protected void register(
-			Context context, String senderId, GoogleServices googleServices)
-		throws Exception {
-
-		try {
-			BusUtil.register(this);
-
-			AsyncTask task = new GoogleCloudMessagingAsyncTask(
-				context, senderId, googleServices);
-
-			task.execute();
-		}
-		catch (Exception e) {
-			BusUtil.unregister(this);
-
-			throw e;
-		}
+	protected void setGoogleServices(GoogleServices googleServices) {
+		_googleServices = googleServices;
 	}
 
+	private GoogleServices _googleServices = new GoogleServices();
 	private OnFailure _onFailure;
 	private OnSuccess _onSuccess;
 	private Session _session;

@@ -95,6 +95,8 @@ public class PushTest {
 		when(googleServices.getRegistrationId(context, senderId))
 			.thenReturn(registrationId);
 
+		push.setGoogleServices(googleServices);
+
 		push.onSuccess(new Push.OnSuccess() {
 
 			@Override
@@ -109,7 +111,7 @@ public class PushTest {
 				}
 			}
 
-		}).register(context, senderId, googleServices);
+		}).register(context, senderId);
 
 		Robolectric.runBackgroundTasks();
 	}
