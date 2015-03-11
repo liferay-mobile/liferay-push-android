@@ -30,7 +30,7 @@ import com.liferay.mobile.push.exception.UnavailableGooglePlayServicesException;
 /**
  * @author Bruno Farache
  */
-public class GCMRegisterAsyncTask extends AsyncTask<Void, Void, String> {
+public class GCMRegisterAsyncTask extends AsyncTask<Object, Void, String> {
 
 	public GCMRegisterAsyncTask(Context context, String senderId)
 		throws UnavailableGooglePlayServicesException {
@@ -41,7 +41,7 @@ public class GCMRegisterAsyncTask extends AsyncTask<Void, Void, String> {
 		isGooglePlayServicesAvailable(context);
 	}
 
-	public String doInBackground(Void... params) {
+	public String doInBackground(Object... params) {
 		String registrationId = null;
 
 		try {

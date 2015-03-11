@@ -16,6 +16,8 @@ package com.liferay.mobile.push;
 
 import android.content.Context;
 
+import android.os.AsyncTask;
+
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
 import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
@@ -64,19 +66,7 @@ public class Push {
 	}
 
 	public void register(Context context, String senderId) throws Exception {
-		try {
-			BusUtil.register(this);
-
-			GCMRegisterAsyncTask task = new GCMRegisterAsyncTask(
-				context, senderId);
-
-			task.execute();
-		}
-		catch (Exception e) {
-			BusUtil.unregister(this);
-
-			throw e;
-		}
+		register(new GCMRegisterAsyncTask(context, senderId));
 	}
 
 	@Subscribe
@@ -141,6 +131,19 @@ public class Push {
 
 	protected PushNotificationsDeviceService getService() {
 		return new PushNotificationsDeviceService(_session);
+	}
+
+	protected void register(AsyncTask task) throws Exception {
+		try {
+			BusUtil.register(this);
+
+			task.execute();
+		}
+		catch (Exception e) {
+			BusUtil.unregister(this);
+
+			throw e;
+		}
 	}
 
 	private OnFailure _onFailure;

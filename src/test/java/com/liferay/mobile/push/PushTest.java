@@ -14,6 +14,8 @@
 
 package com.liferay.mobile.push;
 
+import android.os.AsyncTask;
+
 import com.liferay.mobile.android.auth.Authentication;
 import com.liferay.mobile.android.auth.basic.BasicAuthentication;
 import com.liferay.mobile.android.service.Session;
@@ -28,6 +30,7 @@ import org.junit.runner.RunWith;
 
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.*;
 
@@ -35,6 +38,7 @@ import static junit.framework.Assert.*;
  * @author Bruno Farache
  */
 @RunWith(RobolectricTestRunner.class)
+@Config(manifest = "android/src/main/AndroidManifest.xml", emulateSdk = 18)
 public class PushTest {
 
 	@Before
@@ -47,7 +51,7 @@ public class PushTest {
 	}
 
 	@Test
-	public void register() throws Exception {
+	public void registerWithRegistrationId() throws Exception {
 		final String registrationId = "123";
 
 		push.onSuccess(new Push.OnSuccess() {
@@ -74,6 +78,32 @@ public class PushTest {
 
 		})
 		.register(registrationId);
+
+		Robolectric.runBackgroundTasks();
+	}
+
+	@Test
+	public void registerWithSenderId() throws Exception {
+		final String registrationId = "123";
+
+		AsyncTask task = new GCMRegisterAsyncTaskStub(
+			Robolectric.application, "sender_id", registrationId);
+
+		push.onSuccess(new Push.OnSuccess() {
+
+			@Override
+			public void onSuccess(JSONObject device) {
+				try {
+					assertNotNull(device);
+					assertEquals("android", device.getString("platform"));
+					assertEquals(registrationId, device.getString("token"));
+				}
+				catch (JSONException je) {
+					fail();
+				}
+			}
+
+		}).register(task);
 
 		Robolectric.runBackgroundTasks();
 	}
