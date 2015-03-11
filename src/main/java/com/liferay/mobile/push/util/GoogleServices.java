@@ -12,39 +12,42 @@
  * details.
  */
 
-package com.liferay.mobile.push;
+package com.liferay.mobile.push.util;
 
 import android.content.Context;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
 import com.liferay.mobile.push.exception.UnavailableGooglePlayServicesException;
-import com.liferay.mobile.push.task.GCMRegisterAsyncTask;
+
+import java.io.IOException;
 
 /**
  * @author Bruno Farache
  */
-public class GCMRegisterAsyncTaskStub extends GCMRegisterAsyncTask {
+public class GoogleServices {
 
-	public GCMRegisterAsyncTaskStub(
-			Context context, String senderId, String registrationId)
-		throws UnavailableGooglePlayServicesException {
+	public String getRegistrationId(Context context, String senderId)
+		throws IOException {
 
-		super(context, senderId);
+		GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);
 
-		this.registrationId = registrationId;
+		return gcm.register(senderId);
 	}
 
-	@Override
-	public String doInBackground(Object... params) {
-		return registrationId;
-	}
-
-	@Override
 	public void isGooglePlayServicesAvailable(Context context)
 		throws UnavailableGooglePlayServicesException {
 
-		return;
-	}
+		int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(
+			context);
 
-	protected String registrationId;
+		if (result != ConnectionResult.SUCCESS) {
+			String message = GooglePlayServicesUtil.getErrorString(result);
+
+			throw new UnavailableGooglePlayServicesException(message);
+		}
+	}
 
 }

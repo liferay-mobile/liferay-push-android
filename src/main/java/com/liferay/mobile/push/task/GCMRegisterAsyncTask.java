@@ -20,35 +20,32 @@ import android.os.AsyncTask;
 
 import android.util.Log;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-
 import com.liferay.mobile.push.bus.BusUtil;
 import com.liferay.mobile.push.exception.UnavailableGooglePlayServicesException;
+import com.liferay.mobile.push.util.GoogleServices;
 
 /**
  * @author Bruno Farache
  */
 public class GCMRegisterAsyncTask extends AsyncTask<Object, Void, String> {
 
-	public GCMRegisterAsyncTask(Context context, String senderId)
+	public GCMRegisterAsyncTask(
+			Context context, String senderId, GoogleServices googleServices)
 		throws UnavailableGooglePlayServicesException {
 
 		_context = context.getApplicationContext();
 		_senderId = senderId;
+		_googleServices = googleServices;
 
-		isGooglePlayServicesAvailable(context);
+		_googleServices.isGooglePlayServicesAvailable(_context);
 	}
 
 	public String doInBackground(Object... params) {
 		String registrationId = null;
 
 		try {
-			GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(
-				_context);
-
-			registrationId = gcm.register(_senderId);
+			registrationId = _googleServices.getRegistrationId(
+				_context, _senderId);
 		}
 		catch (Exception e) {
 			Log.e(_TAG, "Could not retrieve request token.", e);
@@ -57,19 +54,6 @@ public class GCMRegisterAsyncTask extends AsyncTask<Object, Void, String> {
 		}
 
 		return registrationId;
-	}
-
-	public void isGooglePlayServicesAvailable(Context context)
-		throws UnavailableGooglePlayServicesException {
-
-		int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(
-			context);
-
-		if (result != ConnectionResult.SUCCESS) {
-			String message = GooglePlayServicesUtil.getErrorString(result);
-
-			throw new UnavailableGooglePlayServicesException(message);
-		}
 	}
 
 	@Override
@@ -87,6 +71,7 @@ public class GCMRegisterAsyncTask extends AsyncTask<Object, Void, String> {
 
 	private Context _context;
 	private Exception _exception;
+	private GoogleServices _googleServices;
 	private String _senderId;
 
 }

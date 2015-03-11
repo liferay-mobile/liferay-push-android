@@ -14,12 +14,19 @@
 
 package com.liferay.mobile.push;
 
+import android.content.Context;
+
 import android.os.AsyncTask;
 
 import com.liferay.mobile.android.auth.Authentication;
 import com.liferay.mobile.android.auth.basic.BasicAuthentication;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
+import com.liferay.mobile.push.exception.UnavailableGooglePlayServicesException;
+import com.liferay.mobile.push.task.GCMRegisterAsyncTask;
+import com.liferay.mobile.push.util.GoogleServices;
+
+import java.io.IOException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,8 +93,24 @@ public class PushTest {
 	public void registerWithSenderId() throws Exception {
 		final String registrationId = "123";
 
-		AsyncTask task = new GCMRegisterAsyncTaskStub(
-			Robolectric.application, "sender_id", registrationId);
+		GoogleServices googleServices = new GoogleServices() {
+
+			@Override
+			public String getRegistrationId(Context context, String senderId)
+				throws IOException {
+
+				return registrationId;
+			}
+
+			@Override
+			public void isGooglePlayServicesAvailable(Context context)
+				throws UnavailableGooglePlayServicesException {
+			}
+
+		};
+
+		AsyncTask task = new GCMRegisterAsyncTask(
+			Robolectric.application, "sender_id", googleServices);
 
 		push.onSuccess(new Push.OnSuccess() {
 

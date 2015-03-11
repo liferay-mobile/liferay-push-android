@@ -24,6 +24,7 @@ import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallbac
 import com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService;
 import com.liferay.mobile.push.bus.BusUtil;
 import com.liferay.mobile.push.task.GCMRegisterAsyncTask;
+import com.liferay.mobile.push.util.GoogleServices;
 
 import com.squareup.otto.Subscribe;
 
@@ -66,7 +67,10 @@ public class Push {
 	}
 
 	public void register(Context context, String senderId) throws Exception {
-		register(new GCMRegisterAsyncTask(context, senderId));
+		AsyncTask task = new GCMRegisterAsyncTask(
+			context, senderId, new GoogleServices());
+
+		register(task);
 	}
 
 	@Subscribe
