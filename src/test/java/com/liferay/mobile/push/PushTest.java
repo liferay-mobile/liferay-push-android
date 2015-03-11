@@ -51,33 +51,32 @@ public class PushTest {
 
 	@Test
 	public void register() throws Exception {
-		final String token = "123";
+		final String registrationId = "123";
 
-		push
-			.onSuccess(new Push.OnSuccess() {
+		push.onSuccess(new Push.OnSuccess() {
 
-				@Override
-				public void onSuccess(JSONObject device) {
-					try {
-						assertNotNull(device);
-						assertEquals("android", device.getString("platform"));
-						assertEquals(token, device.getString("token"));
-					}
-					catch (JSONException je) {
-						fail();
-					}
+			@Override
+			public void onSuccess(JSONObject device) {
+				try {
+					assertNotNull(device);
+					assertEquals("android", device.getString("platform"));
+					assertEquals(registrationId, device.getString("token"));
 				}
-
-			})
-			.onFailure(new Push.OnFailure() {
-
-				@Override
-				public void onFailure(Exception e) {
-					fail(e.getMessage());
+				catch (JSONException je) {
+					fail();
 				}
+			}
 
-			})
-			.register(token);
+		})
+		.onFailure(new Push.OnFailure() {
+
+			@Override
+			public void onFailure(Exception e) {
+				fail(e.getMessage());
+			}
+
+		})
+		.register(registrationId);
 
 		Robolectric.runBackgroundTasks();
 	}
@@ -85,6 +84,41 @@ public class PushTest {
 	@Test(expected = UnavailableGooglePlayServicesException.class)
 	public void unavailableGooglePlayService() throws Exception {
 		push.register(Robolectric.application, "");
+	}
+
+	@Test
+	public void unregister() throws Exception {
+		final String registrationId = "123";
+
+		push.onFailure(new Push.OnFailure() {
+
+			@Override
+			public void onFailure(Exception e) {
+				fail(e.getMessage());
+			}
+
+		})
+		.register(registrationId);
+
+		Robolectric.runBackgroundTasks();
+
+		push.onSuccess(new Push.OnSuccess() {
+
+			@Override
+			public void onSuccess(JSONObject device) {
+				try {
+					assertNotNull(device);
+					assertEquals(registrationId, device.getString("token"));
+				}
+				catch (JSONException je) {
+					fail();
+				}
+			}
+
+		})
+		.unregister(registrationId);
+
+		Robolectric.runBackgroundTasks();
 	}
 
 	protected Push push;
