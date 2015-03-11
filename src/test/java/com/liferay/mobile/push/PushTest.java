@@ -82,17 +82,7 @@ public class PushTest {
 	public void unregister() throws Exception {
 		final String registrationId = "123";
 
-		push.onFailure(new Push.OnFailure() {
-
-			@Override
-			public void onFailure(Exception e) {
-				fail(e.getMessage());
-			}
-
-		})
-		.register(registrationId);
-
-		Robolectric.runBackgroundTasks();
+		register(registrationId);
 
 		push.onSuccess(new Push.OnSuccess() {
 
@@ -109,6 +99,20 @@ public class PushTest {
 
 		})
 		.unregister(registrationId);
+
+		Robolectric.runBackgroundTasks();
+	}
+
+	protected void register(String registrationId) throws Exception {
+		push.onFailure(new Push.OnFailure() {
+
+			@Override
+			public void onFailure(Exception e) {
+				fail(e.getMessage());
+			}
+
+		})
+		.register(registrationId);
 
 		Robolectric.runBackgroundTasks();
 	}

@@ -43,7 +43,7 @@ android {
 
 	sourceSets {
 		main {
-			java.srcDirs = ['src/gen/java', 'src/main/java']
+			java.srcDirs += 'src/gen/java'
 		}
 	}
 }
