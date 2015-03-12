@@ -60,6 +60,21 @@ public class Push {
 		return this;
 	}
 
+	@Subscribe
+	public void onPushNotification(JSONObject pushNotification) {
+		if (_onMessage != null) {
+			_onMessage.onMessage(pushNotification);
+		}
+	}
+
+	public Push onPushNotification(OnMessage pushNotification) {
+		BusUtil.register(this);
+
+		_onMessage = pushNotification;
+
+		return this;
+	}
+
 	public Push onSuccess(OnSuccess onSuccess) {
 		_onSuccess = onSuccess;
 
@@ -117,6 +132,12 @@ public class Push {
 
 	}
 
+	public interface OnMessage {
+
+		public void onMessage(JSONObject message);
+
+	}
+
 	public interface OnSuccess {
 
 		public void onSuccess(JSONObject jsonObject);
@@ -152,6 +173,7 @@ public class Push {
 
 	private GoogleServices _googleServices = new GoogleServices();
 	private OnFailure _onFailure;
+	private OnMessage _onMessage;
 	private OnSuccess _onSuccess;
 	private Session _session;
 

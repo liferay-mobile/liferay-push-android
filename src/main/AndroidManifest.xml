@@ -7,6 +7,18 @@
 	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
 	<application>
+		<receiver
+			android:name=".receiver.GoogleCloudMessagingReceiver"
+			android:permission="com.google.android.c2dm.permission.SEND">
+
+			<intent-filter>
+				<action android:name="com.google.android.c2dm.intent.RECEIVE" />
+				<category android:name="com.liferay.mobile.push" />
+			</intent-filter>
+		</receiver>
+
+		<service android:name=".receiver.GoogleCloudMessagingIntentService" />
+
 		<meta-data
 			tools:replace="android:value"
 			android:name="com.google.android.gms.version"

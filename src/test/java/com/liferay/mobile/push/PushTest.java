@@ -29,12 +29,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import org.mockito.Mockito;
+
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.*;
-import static org.mockito.Mockito.*;
 
 /**
  * @author Bruno Farache
@@ -86,13 +87,13 @@ public class PushTest {
 
 	@Test
 	public void registerWithSenderId() throws Exception {
-		GoogleServices googleServices = mock(GoogleServices.class);
+		GoogleServices googleServices = Mockito.mock(GoogleServices.class);
 		Context context = Robolectric.application;
 		String senderId = "senderId";
 
 		final String registrationId = "123";
 
-		when(googleServices.getRegistrationId(context, senderId))
+		Mockito.when(googleServices.getRegistrationId(context, senderId))
 			.thenReturn(registrationId);
 
 		push.setGoogleServices(googleServices);
