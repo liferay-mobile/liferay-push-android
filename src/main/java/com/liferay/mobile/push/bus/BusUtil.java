@@ -17,6 +17,7 @@ package com.liferay.mobile.push.bus;
 import android.util.Log;
 
 import com.squareup.otto.Bus;
+import com.squareup.otto.ThreadEnforcer;
 
 /**
  * @author Bruno Farache
@@ -42,7 +43,7 @@ public class BusUtil {
 
 	protected static Bus getInstance() {
 		if (_bus == null) {
-			_bus = new Bus();
+			_bus = new Bus(ThreadEnforcer.ANY);
 		}
 
 		return _bus;

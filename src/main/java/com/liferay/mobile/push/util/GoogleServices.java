@@ -53,7 +53,8 @@ public class GoogleServices {
 		}
 
 		try {
-			JSONObject pushNotification = new JSONObject(extras.toString());
+			JSONObject pushNotification = new JSONObject(
+				extras.getString("payload"));
 
 			return pushNotification;
 		}
