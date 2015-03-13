@@ -16,16 +16,13 @@ package com.liferay.mobile.push;
 
 import android.content.Context;
 
-import com.liferay.mobile.android.auth.Authentication;
-import com.liferay.mobile.android.auth.basic.BasicAuthentication;
-import com.liferay.mobile.android.service.Session;
-import com.liferay.mobile.android.service.SessionImpl;
 import com.liferay.mobile.push.util.GoogleServices;
+
+import junit.framework.Assert;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -35,23 +32,12 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static junit.framework.Assert.*;
-
 /**
  * @author Bruno Farache
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = "android/src/main/AndroidManifest.xml", emulateSdk = 18)
-public class PushTest {
-
-	@Before
-	public void before() {
-		Authentication auth = new BasicAuthentication(
-			"test@liferay.com", "test");
-
-		Session session = new SessionImpl("http://localhost:8080", auth);
-		push = Push.with(session);
-	}
+public class DeviceRegistrationTest extends BaseTest {
 
 	@Test
 	public void registerWithRegistrationId() throws Exception {
@@ -62,12 +48,14 @@ public class PushTest {
 			@Override
 			public void onSuccess(JSONObject device) {
 				try {
-					assertNotNull(device);
-					assertEquals("android", device.getString("platform"));
-					assertEquals(registrationId, device.getString("token"));
+					Assert.assertNotNull(device);
+					Assert.assertEquals(
+						"android", device.getString("platform"));
+					Assert.assertEquals(
+						registrationId, device.getString("token"));
 				}
 				catch (JSONException je) {
-					fail();
+					Assert.fail();
 				}
 			}
 
@@ -76,7 +64,7 @@ public class PushTest {
 
 			@Override
 			public void onFailure(Exception e) {
-				fail(e.getMessage());
+				Assert.fail(e.getMessage());
 			}
 
 		})
@@ -103,12 +91,14 @@ public class PushTest {
 			@Override
 			public void onSuccess(JSONObject device) {
 				try {
-					assertNotNull(device);
-					assertEquals("android", device.getString("platform"));
-					assertEquals(registrationId, device.getString("token"));
+					Assert.assertNotNull(device);
+					Assert.assertEquals(
+						"android", device.getString("platform"));
+					Assert.assertEquals(
+						registrationId, device.getString("token"));
 				}
 				catch (JSONException je) {
-					fail();
+					Assert.fail();
 				}
 			}
 
@@ -128,11 +118,12 @@ public class PushTest {
 			@Override
 			public void onSuccess(JSONObject device) {
 				try {
-					assertNotNull(device);
-					assertEquals(registrationId, device.getString("token"));
+					Assert.assertNotNull(device);
+					Assert.assertEquals(
+						registrationId, device.getString("token"));
 				}
 				catch (JSONException je) {
-					fail();
+					Assert.fail();
 				}
 			}
 
@@ -147,7 +138,7 @@ public class PushTest {
 
 			@Override
 			public void onFailure(Exception e) {
-				fail(e.getMessage());
+				Assert.fail(e.getMessage());
 			}
 
 		})
@@ -155,7 +146,5 @@ public class PushTest {
 
 		Robolectric.runBackgroundTasks();
 	}
-
-	protected Push push;
 
 }
