@@ -48,10 +48,10 @@ public class Push {
 		return this;
 	}
 
-	public Push onPushNotification(OnPushNotification pushNotification) {
+	public Push onPushNotification(OnPushNotification onPushNotification) {
 		_subscriber.subscribe();
 
-		this.onPushNotification = pushNotification;
+		this.onPushNotification = onPushNotification;
 
 		return this;
 	}
