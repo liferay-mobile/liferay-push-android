@@ -28,16 +28,16 @@ public class BusUtil {
 		getInstance().post(event);
 	}
 
-	public static void register(Object object) {
+	public static void subscribe(Object object) {
 		getInstance().register(object);
 	}
 
-	public static void unregister(Object object) {
+	public static void unsubscribe(Object object) {
 		try {
 			getInstance().unregister(object);
 		}
 		catch (IllegalArgumentException iae) {
-			Log.w(_TAG, "Could unregister subscriber.", iae);
+			Log.w(_TAG, "Could not unsubscribe.", iae);
 		}
 	}
 

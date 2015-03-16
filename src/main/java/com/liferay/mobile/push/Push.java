@@ -22,11 +22,8 @@ import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
 import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
 import com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService;
-import com.liferay.mobile.push.bus.BusUtil;
 import com.liferay.mobile.push.task.GoogleCloudMessagingAsyncTask;
 import com.liferay.mobile.push.util.GoogleServices;
-
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,45 +42,29 @@ public class Push {
 		return new Push(session);
 	}
 
-	@Subscribe
-	public void onFailure(Exception e) {
-		BusUtil.unregister(this);
-
-		if (_onFailure != null) {
-			_onFailure.onFailure(e);
-		}
-	}
-
 	public Push onFailure(OnFailure onFailure) {
-		_onFailure = onFailure;
+		this.onFailure = onFailure;
 
 		return this;
 	}
 
-	@Subscribe
-	public void onPushNotification(JSONObject pushNotification) {
-		if (_onPushNotification != null) {
-			_onPushNotification.onPushNotification(pushNotification);
-		}
-	}
-
 	public Push onPushNotification(OnPushNotification pushNotification) {
-		BusUtil.register(this);
+		_subscriber.subscribe();
 
-		_onPushNotification = pushNotification;
+		this.onPushNotification = pushNotification;
 
 		return this;
 	}
 
 	public Push onSuccess(OnSuccess onSuccess) {
-		_onSuccess = onSuccess;
+		this.onSuccess = onSuccess;
 
 		return this;
 	}
 
 	public void register(Context context, String senderId) throws Exception {
 		try {
-			BusUtil.register(this);
+			_subscriber.subscribe();
 
 			AsyncTask task = new GoogleCloudMessagingAsyncTask(
 				context, senderId, _googleServices);
@@ -91,13 +72,12 @@ public class Push {
 			task.execute();
 		}
 		catch (Exception e) {
-			BusUtil.unregister(this);
+			_subscriber.unsubscribe();
 
 			throw e;
 		}
 	}
 
-	@Subscribe
 	public void register(String registrationId) throws Exception {
 		getService().addPushNotificationsDevice(registrationId, ANDROID);
 	}
@@ -148,17 +128,20 @@ public class Push {
 
 	protected Push(Session session) {
 		_session = new SessionImpl(session);
+		_subscriber = new PushSubscriber(this);
 		_session.setCallback(new JSONObjectAsyncTaskCallback() {
 
 			@Override
 			public void onFailure(Exception e) {
-				Push.this.onFailure(e);
+				if (onFailure != null) {
+					onFailure.onFailure(e);
+				}
 			}
 
 			@Override
 			public void onSuccess(JSONObject jsonObject) {
-				if (_onSuccess != null) {
-					_onSuccess.onSuccess(jsonObject);
+				if (onSuccess != null) {
+					onSuccess.onSuccess(jsonObject);
 				}
 			}
 
@@ -173,10 +156,12 @@ public class Push {
 		_googleServices = googleServices;
 	}
 
+	protected OnFailure onFailure;
+	protected OnPushNotification onPushNotification;
+	protected OnSuccess onSuccess;
+
 	private GoogleServices _googleServices = new GoogleServices();
-	private OnFailure _onFailure;
-	private OnPushNotification _onPushNotification;
-	private OnSuccess _onSuccess;
 	private Session _session;
+	private PushSubscriber _subscriber;
 
 }
