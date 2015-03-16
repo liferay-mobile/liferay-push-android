@@ -36,20 +36,25 @@ import org.json.JSONObject;
  */
 public class GoogleServices {
 
+	public String getMessageType(Context context, Intent intent) {
+		return getInstance(context).getMessageType(intent);
+	}
+
 	public JSONObject getPushNotification(Context context, Intent intent)
 		throws PushNotificationReceiverException {
 
-		String messageType = getInstance(context).getMessageType(intent);
-		Bundle extras = intent.getExtras();
-
-		if (extras.isEmpty()) {
-			throw new PushNotificationReceiverException(
-				"Push notification body is empty.");
-		}
+		String messageType = getMessageType(context, intent);
 
 		if (!GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
 			throw new PushNotificationReceiverException(
 				"Unknown message type" + messageType);
+		}
+
+		Bundle extras = intent.getExtras();
+
+		if ((extras == null) || extras.isEmpty()) {
+			throw new PushNotificationReceiverException(
+				"Push notification body is empty.");
 		}
 
 		try {

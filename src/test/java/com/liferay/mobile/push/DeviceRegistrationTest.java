@@ -50,7 +50,7 @@ public class DeviceRegistrationTest extends BaseTest {
 				try {
 					Assert.assertNotNull(device);
 					Assert.assertEquals(
-						"android", device.getString("platform"));
+						Push.ANDROID, device.getString("platform"));
 					Assert.assertEquals(
 						registrationId, device.getString("token"));
 				}
@@ -81,8 +81,9 @@ public class DeviceRegistrationTest extends BaseTest {
 
 		final String registrationId = "123";
 
-		Mockito.when(googleServices.getRegistrationId(context, senderId))
-			.thenReturn(registrationId);
+		Mockito.when(
+			googleServices.getRegistrationId(context, senderId))
+		.thenReturn(registrationId);
 
 		push.setGoogleServices(googleServices);
 
@@ -93,7 +94,7 @@ public class DeviceRegistrationTest extends BaseTest {
 				try {
 					Assert.assertNotNull(device);
 					Assert.assertEquals(
-						"android", device.getString("platform"));
+						Push.ANDROID, device.getString("platform"));
 					Assert.assertEquals(
 						registrationId, device.getString("token"));
 				}

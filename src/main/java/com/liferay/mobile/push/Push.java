@@ -62,15 +62,15 @@ public class Push {
 
 	@Subscribe
 	public void onPushNotification(JSONObject pushNotification) {
-		if (_onMessage != null) {
-			_onMessage.onMessage(pushNotification);
+		if (_onPushNotification != null) {
+			_onPushNotification.onPushNotification(pushNotification);
 		}
 	}
 
-	public Push onPushNotification(OnMessage pushNotification) {
+	public Push onPushNotification(OnPushNotification pushNotification) {
 		BusUtil.register(this);
 
-		_onMessage = pushNotification;
+		_onPushNotification = pushNotification;
 
 		return this;
 	}
@@ -102,7 +102,7 @@ public class Push {
 		getService().addPushNotificationsDevice(registrationId, ANDROID);
 	}
 
-	public void send(List<Long> toUserIds, JSONObject notification)
+	public void send(List<Long> toUserIds, JSONObject pushNotification)
 		throws Exception {
 
 		JSONArray toUserIdsJSONArray = new JSONArray();
@@ -112,14 +112,16 @@ public class Push {
 		}
 
 		getService().sendPushNotification(
-			toUserIdsJSONArray, notification.toString());
+			toUserIdsJSONArray, pushNotification.toString());
 	}
 
-	public void send(long toUserId, JSONObject notification) throws Exception {
+	public void send(long toUserId, JSONObject pushNotification)
+		throws Exception {
+
 		List<Long> toUserIds = new ArrayList<Long>();
 		toUserIds.add(toUserId);
 
-		send(toUserIds, notification);
+		send(toUserIds, pushNotification);
 	}
 
 	public void unregister(String registrationId) throws Exception {
@@ -132,9 +134,9 @@ public class Push {
 
 	}
 
-	public interface OnMessage {
+	public interface OnPushNotification {
 
-		public void onMessage(JSONObject message);
+		public void onPushNotification(JSONObject pushNotification);
 
 	}
 
@@ -173,7 +175,7 @@ public class Push {
 
 	private GoogleServices _googleServices = new GoogleServices();
 	private OnFailure _onFailure;
-	private OnMessage _onMessage;
+	private OnPushNotification _onPushNotification;
 	private OnSuccess _onSuccess;
 	private Session _session;
 

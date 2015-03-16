@@ -34,7 +34,7 @@ public class GoogleCloudMessagingIntentService extends IntentService {
 	}
 
 	@Override
-	protected void onHandleIntent(Intent intent) {
+	public void onHandleIntent(Intent intent) {
 		try {
 			JSONObject pushNotitification = _googleService.getPushNotification(
 				this, intent);
@@ -46,6 +46,10 @@ public class GoogleCloudMessagingIntentService extends IntentService {
 		catch (PushNotificationReceiverException pnre) {
 			BusUtil.post(pnre);
 		}
+	}
+
+	public void setGoogleServices(GoogleServices googleServices) {
+		_googleService = googleServices;
 	}
 
 	private GoogleServices _googleService = new GoogleServices();

@@ -14,8 +14,6 @@
 
 package com.liferay.mobile.push.receiver;
 
-import android.app.Activity;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +34,6 @@ public class GoogleCloudMessagingReceiver extends WakefulBroadcastReceiver {
 		intent.setComponent(component);
 
 		startWakefulService(context, intent);
-		setResultCode(Activity.RESULT_OK);
 	}
 
 }
