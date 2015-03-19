@@ -36,10 +36,10 @@ public class GoogleCloudMessagingIntentService extends IntentService {
 	@Override
 	public void onHandleIntent(Intent intent) {
 		try {
-			JSONObject pushNotitification = _googleService.getPushNotification(
+			JSONObject pushNotification = _googleService.getPushNotification(
 				this, intent);
 
-			BusUtil.post(pushNotitification);
+			BusUtil.post(pushNotification);
 
 			GoogleCloudMessagingReceiver.completeWakefulIntent(intent);
 		}
