@@ -1,8 +1,8 @@
 ![Liferay Mobile SDK logo](https://github.com/liferay/liferay-mobile-sdk/raw/master/logo.png)
 
-[![Build Status](https://travis-ci.org/brunofarache/liferay-push.svg?branch=master)](https://travis-ci.org/brunofarache/liferay-push)
-
 # Liferay Push for Android
+
+[![Build Status](https://travis-ci.org/brunofarache/liferay-push.svg?branch=master)](https://travis-ci.org/brunofarache/liferay-push)
 
 * [Setup](#setup)
 * [Use](#use)
