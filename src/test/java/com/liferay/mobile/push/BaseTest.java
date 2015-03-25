@@ -33,9 +33,23 @@ public abstract class BaseTest {
 	public void setup() {
 		Context context = Robolectric.application;
 
-		String username = context.getString(R.string.username);
-		String password = context.getString(R.string.password);
-		String server = context.getString(R.string.server);
+		String username = System.getenv("PUSH_USERNAME");
+
+		if (username == null) {
+			username = context.getString(R.string.username);
+		}
+
+		String password = System.getenv("PUSH_PASSWORD");
+
+		if (password == null) {
+			password = context.getString(R.string.password);
+		}
+
+		String server = System.getenv("PUSH_SERVER");
+
+		if (server == null) {
+			server = context.getString(R.string.server);
+		}
 
 		Authentication auth = new BasicAuthentication(username, password);
 		Session session = new SessionImpl(server, auth);
