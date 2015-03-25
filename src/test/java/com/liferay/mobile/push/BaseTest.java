@@ -14,12 +14,15 @@
 
 package com.liferay.mobile.push;
 
+import android.content.Context;
+
 import com.liferay.mobile.android.auth.Authentication;
 import com.liferay.mobile.android.auth.basic.BasicAuthentication;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
 
 import org.junit.Before;
+import org.robolectric.Robolectric;
 
 /**
  * @author Bruno Farache
@@ -28,10 +31,15 @@ public abstract class BaseTest {
 
 	@Before
 	public void setup() {
-		Authentication auth = new BasicAuthentication(
-			"test@liferay.com", "test");
+		Context context = Robolectric.application;
 
-		Session session = new SessionImpl("http://localhost:8080", auth);
+		String username = context.getString(R.string.username);
+		String password = context.getString(R.string.password);
+		String server = context.getString(R.string.server);
+
+		Authentication auth = new BasicAuthentication(username, password);
+		Session session = new SessionImpl(server, auth);
+
 		push = Push.with(session);
 	}
 
