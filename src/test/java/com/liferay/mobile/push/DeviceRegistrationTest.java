@@ -36,7 +36,7 @@ import org.robolectric.annotation.Config;
  * @author Bruno Farache
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest = "android/src/main/AndroidManifest.xml", emulateSdk = 18)
+@Config(manifest = "src/main/AndroidManifest.xml", emulateSdk = 18)
 public class DeviceRegistrationTest extends BaseTest {
 
 	@Test

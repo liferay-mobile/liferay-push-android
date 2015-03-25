@@ -45,7 +45,7 @@ import org.robolectric.shadows.ShadowApplication.Wrapper;
  * @author Bruno Farache
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest = "android/src/main/AndroidManifest.xml", emulateSdk = 18)
+@Config(manifest = "src/main/AndroidManifest.xml", emulateSdk = 18)
 public class ReceivePushNotificationTest extends BaseTest {
 
 	@Test
