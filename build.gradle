@@ -1,11 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'signing'
+apply from: 'https://raw.githubusercontent.com/brunofarache/liferay-mobile-sdk/master/formatter.gradle'
 
-if (file('../../formatter.gradle').exists()) {
-	apply from: '../../formatter.gradle'
-	format.workingDir = 'src'
-}
+format.workingDir = 'src'
 
 dependencies {
 	compile group: 'com.google.android.gms', name: 'play-services-base', version: '6.5.87'

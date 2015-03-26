@@ -22,6 +22,7 @@ import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
 
 import org.junit.Before;
+
 import org.robolectric.Robolectric;
 
 /**
