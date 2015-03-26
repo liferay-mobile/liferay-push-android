@@ -1,5 +1,5 @@
 language: android
 
 script:
-  - cd android
+  - cd library
   - ../gradlew assembleDebug testDebug
