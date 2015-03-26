@@ -2,7 +2,7 @@
 
 # Liferay Push for Android
 
-[![Build Status](https://travis-ci.org/brunofarache/liferay-push.svg?branch=master)](https://travis-ci.org/brunofarache/liferay-push)
+[![Build Status](https://travis-ci.org/brunofarache/liferay-push-android.svg?branch=master)](https://travis-ci.org/brunofarache/liferay-push-android)
 
 * [Setup](#setup)
 * [Use](#use)
