@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'jacoco'
+
 apply from: 'https://raw.githubusercontent.com/brunofarache/liferay-mobile-sdk/master/release-aar.gradle'
 apply from: 'https://raw.githubusercontent.com/brunofarache/liferay-mobile-sdk/master/formatter.gradle'
 format.workingDir = 'src'
@@ -47,5 +49,32 @@ android {
 		test {
 			java.srcDirs += 'build/generated/source/r/debug'
 		}
+	}
+}
+
+task coverage(type:JacocoReport, dependsOn: "testDebug") {
+	def sourceDirs = ['src/gen/java', 'src/main/java']
+	description = "Generate test coverage report"
+
+	classDirectories = fileTree(
+		dir: "$buildDir/intermediates/classes/debug",
+		excludes: [
+			'**/R.class',
+			'**/R$*.class',
+			'**/BuildConfig.*',
+			'**/Manifest*.*',
+			'**/BitmapRequestBuilder.class',
+			'**/DrawableRequestBuilder.class',
+			'**/GifRequestBuilder.class'
+		]
+	)
+
+	additionalSourceDirs = files(sourceDirs)
+	sourceDirectories = files(sourceDirs)
+	executionData = files("$buildDir/jacoco/testDebug.exec")
+
+	reports {
+		html.enabled = true
+		xml.enabled = true
 	}
 }
