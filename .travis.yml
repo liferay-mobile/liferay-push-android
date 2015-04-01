@@ -2,4 +2,4 @@ language: android
 
 script:
   - cd library
-  - ../gradlew assembleDebug testDebug --debug
+  - ../gradlew assembleDebug testDebug
