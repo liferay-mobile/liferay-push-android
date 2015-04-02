@@ -3,7 +3,7 @@
 # Liferay Push for Android
 
 [![Build Status](https://travis-ci.org/brunofarache/liferay-push-android.svg?branch=master)](https://travis-ci.org/brunofarache/liferay-push-android)
-[![Coverage Status](https://coveralls.io/repos/brunofarache/liferay-push-android/badge.svg?branch=master)](https://coveralls.io/r/brunofarache/liferay-push-android?branch=master)
+[![Coverage Status](https://coveralls.io/repos/brunofarache/liferay-push-android/badge.png?branch=master)](https://coveralls.io/r/brunofarache/liferay-push-android?branch=master)
 
 * [Setup](#setup)
 * [Use](#use)
