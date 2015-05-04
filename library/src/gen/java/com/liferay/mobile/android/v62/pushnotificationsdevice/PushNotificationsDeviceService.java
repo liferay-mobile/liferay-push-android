@@ -15,6 +15,7 @@
 package com.liferay.mobile.android.v62.pushnotificationsdevice;
 
 import com.liferay.mobile.android.service.BaseService;
+import com.liferay.mobile.android.service.JSONObjectWrapper;
 import com.liferay.mobile.android.service.Session;
 
 import org.json.JSONArray;
@@ -36,10 +37,10 @@ public class PushNotificationsDeviceService extends BaseService {
 		try {
 			JSONObject _params = new JSONObject();
 
-			_params.put("token", token);
-			_params.put("platform", platform);
+			_params.put("token", checkNull(token));
+			_params.put("platform", checkNull(platform));
 
-			_command.put("/push-notifications-portlet/pushnotificationsdevice/add-push-notifications-device", _params);
+			_command.put("/push-notifications-portlet.pushnotificationsdevice/add-push-notifications-device", _params);
 		}
 		catch (JSONException _je) {
 			throw new Exception(_je);
@@ -60,9 +61,9 @@ public class PushNotificationsDeviceService extends BaseService {
 		try {
 			JSONObject _params = new JSONObject();
 
-			_params.put("token", token);
+			_params.put("token", checkNull(token));
 
-			_command.put("/push-notifications-portlet/pushnotificationsdevice/delete-push-notifications-device", _params);
+			_command.put("/push-notifications-portlet.pushnotificationsdevice/delete-push-notifications-device", _params);
 		}
 		catch (JSONException _je) {
 			throw new Exception(_je);
@@ -83,10 +84,10 @@ public class PushNotificationsDeviceService extends BaseService {
 		try {
 			JSONObject _params = new JSONObject();
 
-			_params.put("toUserIds", toUserIds);
-			_params.put("payload", payload);
+			_params.put("toUserIds", checkNull(toUserIds));
+			_params.put("payload", checkNull(payload));
 
-			_command.put("/push-notifications-portlet/pushnotificationsdevice/send-push-notification", _params);
+			_command.put("/push-notifications-portlet.pushnotificationsdevice/send-push-notification", _params);
 		}
 		catch (JSONException _je) {
 			throw new Exception(_je);
@@ -101,11 +102,11 @@ public class PushNotificationsDeviceService extends BaseService {
 		try {
 			JSONObject _params = new JSONObject();
 
-			_params.put("platform", platform);
-			_params.put("tokens", tokens);
-			_params.put("payload", payload);
+			_params.put("platform", checkNull(platform));
+			_params.put("tokens", checkNull(tokens));
+			_params.put("payload", checkNull(payload));
 
-			_command.put("/push-notifications-portlet/pushnotificationsdevice/send-push-notification", _params);
+			_command.put("/push-notifications-portlet.pushnotificationsdevice/send-push-notification", _params);
 		}
 		catch (JSONException _je) {
 			throw new Exception(_je);
