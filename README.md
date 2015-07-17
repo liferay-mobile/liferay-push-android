@@ -7,10 +7,10 @@
 
 * [Setup](#setup)
 * [Use](#use)
-	* [Registering device](#registering-a-device)
-	* [Receiving Push Notifications](#receiving-push-notifications)
+	* [Registering a device](#registering-a-device)
+	* [Receiving push notifications](#receiving-push-notifications)
 	* [Sending push notifications](#sending-push-notifications)
-	* [Unregistering device](#unregistering-a-device)
+	* [Unregistering a device](#unregistering-a-device)
 
 ## Setup
 
@@ -82,7 +82,7 @@ Now each time the portal wants to send a push notification to the user `test@lif
 
 You should note that the [Push](src/main/java/com/liferay/mobile/push/Push.java) class is a wrapper for the Mobile SDK generated services. Internally, it calls the Mobile SDK's `PushNotificationsDeviceService` class. While you can still use `PushNotificationsDeviceService` directly, using the wrapper class is easier.
 
-### Receiving Push Notifications
+### Receiving push notifications
 
 Once your device is registered, your app must be able to listen for notifications. 
 
@@ -92,18 +92,19 @@ There are several ways to do this:
 
 * If you want to execute an action or show a notification only if the application is active, you could register a callback:
 
-	```java
-	Push.with(session).onPushNotification(new Push.OnPushNotification() {
-					@Override
-					public void onPushNotification(final JSONObject jsonObject) {
-						
-					}
-				});
-	```
-	
-	This method only works if you have already registered against Liferay Portal using the previous instructions.
+```java
+Push.with(session).onPushNotification(new Push.OnPushNotification()
 
-### Sending Push Notifications
+	@Override
+	public void onPushNotification(final JSONObject jsonObject) {
+	}
+
+});
+```
+	
+This method only works if you have already registered against Liferay Portal using the previous instructions.
+
+### Sending push notifications
 
 There are many ways to send push notifications from Liferay Portal. See the [Liferay Push documentation](../README.md) for more details. Alternatively, you can send push notifications from your Android app. Just make sure the user has the proper permissions in the portal to send push notifications.
 
