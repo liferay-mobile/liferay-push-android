@@ -96,7 +96,7 @@ There are several ways to do this:
 Push.with(session).onPushNotification(new Push.OnPushNotification()
 
 	@Override
-	public void onPushNotification(final JSONObject jsonObject) {
+	public void onPushNotification(JSONObject jsonObject) {
 	}
 
 });
