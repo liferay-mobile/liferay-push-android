@@ -18,9 +18,9 @@ import android.content.Context;
 
 import android.os.AsyncTask;
 
+import com.liferay.mobile.android.callback.typed.JSONObjectCallback;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
-import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
 import com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService;
 import com.liferay.mobile.push.task.GoogleCloudMessagingAsyncTask;
 import com.liferay.mobile.push.util.GoogleServices;
@@ -129,7 +129,7 @@ public class Push {
 	protected Push(Session session) {
 		_session = new SessionImpl(session);
 		_subscriber = new PushSubscriber(this);
-		_session.setCallback(new JSONObjectAsyncTaskCallback() {
+		_session.setCallback(new JSONObjectCallback() {
 
 			@Override
 			public void onFailure(Exception e) {
