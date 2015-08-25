@@ -12,9 +12,8 @@
  * details.
  */
 
-package com.liferay.mobile.push.receiver;
+package com.liferay.mobile.push;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 
@@ -23,16 +22,14 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 /**
  * @author Bruno Farache
  */
-public class GoogleCloudMessagingReceiver extends WakefulBroadcastReceiver {
+public abstract class PushNotificationsReceiver
+	extends WakefulBroadcastReceiver {
+
+	public abstract String getServiceClassName();
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		ComponentName component = new ComponentName(
-			context.getPackageName(),
-			GoogleCloudMessagingIntentService.class.getName());
-
-		intent.setComponent(component);
-
+		intent.setClassName(context, getServiceClassName());
 		startWakefulService(context, intent);
 	}
 

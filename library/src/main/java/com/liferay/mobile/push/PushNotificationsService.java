@@ -12,10 +12,11 @@
  * details.
  */
 
-package com.liferay.mobile.push.receiver;
+package com.liferay.mobile.push;
 
 import android.app.IntentService;
 
+import android.content.Context;
 import android.content.Intent;
 
 import com.liferay.mobile.push.bus.BusUtil;
@@ -27,10 +28,10 @@ import org.json.JSONObject;
 /**
  * @author Bruno Farache
  */
-public class GoogleCloudMessagingIntentService extends IntentService {
+public class PushNotificationsService extends IntentService {
 
-	public GoogleCloudMessagingIntentService() {
-		super(GoogleCloudMessagingIntentService.class.getSimpleName());
+	public PushNotificationsService() {
+		super(PushNotificationsService.class.getSimpleName());
 	}
 
 	@Override
@@ -40,12 +41,17 @@ public class GoogleCloudMessagingIntentService extends IntentService {
 				this, intent);
 
 			BusUtil.post(pushNotification);
+			onPushNotification(this, pushNotification);
 
-			GoogleCloudMessagingReceiver.completeWakefulIntent(intent);
+			PushNotificationsReceiver.completeWakefulIntent(intent);
 		}
 		catch (PushNotificationReceiverException pnre) {
 			BusUtil.post(pnre);
 		}
+	}
+
+	public void onPushNotification(
+		Context context, JSONObject pushNotification) {
 	}
 
 	public void setGoogleServices(GoogleServices googleServices) {

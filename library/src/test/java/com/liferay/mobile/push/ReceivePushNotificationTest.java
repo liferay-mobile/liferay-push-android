@@ -19,8 +19,7 @@ import android.content.Intent;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
-import com.liferay.mobile.push.receiver.GoogleCloudMessagingIntentService;
-import com.liferay.mobile.push.receiver.GoogleCloudMessagingReceiver;
+import com.liferay.mobile.push.Push.OnPushNotification;
 import com.liferay.mobile.push.util.GoogleServices;
 
 import java.util.List;
@@ -66,7 +65,7 @@ public class ReceivePushNotificationTest extends BaseTest {
 		String componentClassName = startedIntent.getComponent().getClassName();
 
 		Assert.assertEquals(
-			GoogleCloudMessagingIntentService.class.getCanonicalName(),
+			PushNotificationsService.class.getCanonicalName(),
 			componentClassName);
 	}
 
@@ -82,7 +81,7 @@ public class ReceivePushNotificationTest extends BaseTest {
 
 		for (Wrapper wrapper : wrappers) {
 			if (wrapper.broadcastReceiver instanceof
-					GoogleCloudMessagingReceiver) {
+					PushNotificationsReceiver) {
 
 				receiver = wrapper.broadcastReceiver;
 			}
@@ -96,11 +95,10 @@ public class ReceivePushNotificationTest extends BaseTest {
 		final String body = "body";
 		final String message = "message";
 
-		GoogleCloudMessagingIntentService service =
-			new GoogleCloudMessagingIntentService();
+		PushNotificationsService service = new PushNotificationsService();
 
 		Intent intent = new Intent(
-			Robolectric.application, GoogleCloudMessagingIntentService.class);
+			Robolectric.application, PushNotificationsService.class);
 
 		JSONObject payload = new JSONObject();
 		payload.put(body, message);
@@ -117,7 +115,7 @@ public class ReceivePushNotificationTest extends BaseTest {
 
 		service.onCreate();
 
-		push.onPushNotification(new Push.OnPushNotification() {
+		push.onPushNotification(new OnPushNotification() {
 
 			@Override
 			public void onPushNotification(JSONObject pushNotification) {
