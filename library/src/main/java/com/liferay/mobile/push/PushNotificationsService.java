@@ -16,9 +16,9 @@ package com.liferay.mobile.push;
 
 import android.app.IntentService;
 
-import android.content.Context;
 import android.content.Intent;
 
+import com.liferay.mobile.push.Push.OnPushNotification;
 import com.liferay.mobile.push.bus.BusUtil;
 import com.liferay.mobile.push.exception.PushNotificationReceiverException;
 import com.liferay.mobile.push.util.GoogleServices;
@@ -28,7 +28,8 @@ import org.json.JSONObject;
 /**
  * @author Bruno Farache
  */
-public class PushNotificationsService extends IntentService {
+public class PushNotificationsService extends IntentService
+	implements OnPushNotification {
 
 	public PushNotificationsService() {
 		super(PushNotificationsService.class.getSimpleName());
@@ -41,7 +42,7 @@ public class PushNotificationsService extends IntentService {
 				this, intent);
 
 			BusUtil.post(pushNotification);
-			onPushNotification(this, pushNotification);
+			onPushNotification(pushNotification);
 
 			PushNotificationsReceiver.completeWakefulIntent(intent);
 		}
@@ -50,8 +51,8 @@ public class PushNotificationsService extends IntentService {
 		}
 	}
 
-	public void onPushNotification(
-		Context context, JSONObject pushNotification) {
+	@Override
+	public void onPushNotification(JSONObject pushNotification) {
 	}
 
 	public void setGoogleServices(GoogleServices googleServices) {
