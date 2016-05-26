@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
 
-apply from: 'https://raw.githubusercontent.com/brunofarache/liferay-mobile-sdk/master/sdk-builder.gradle'
 apply from: 'https://raw.githubusercontent.com/brunofarache/liferay-mobile-sdk/master/release-aar.gradle'
 apply from: 'https://raw.githubusercontent.com/brunofarache/liferay-mobile-sdk/master/formatter.gradle'
 format.workingDir = 'src'
@@ -38,6 +37,10 @@ android {
 		minSdkVersion 15
 		targetSdkVersion 21
 	}
+
+    lintOptions {
+        disable 'InvalidPackage'
+    }
 
 	packagingOptions {
 		exclude 'META-INF/LICENSE'
