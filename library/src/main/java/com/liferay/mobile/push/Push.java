@@ -19,8 +19,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.liferay.mobile.android.callback.typed.JSONObjectCallback;
+import com.liferay.mobile.android.PushNotificationsDevice;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
+import com.liferay.mobile.android.util.PortalVersion;
 import com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService;
 import com.liferay.mobile.push.task.GoogleCloudMessagingAsyncTask;
 import com.liferay.mobile.push.util.GoogleServices;
@@ -104,6 +106,10 @@ public class Push {
 		send(toUserIds, pushNotification);
 	}
 
+	public void withPortalVersion(int version) {
+		_portalVersion = version;
+	}
+
 	public void unregister(String registrationId) throws Exception {
 		getService().deletePushNotificationsDevice(registrationId);
 	}
@@ -148,8 +154,13 @@ public class Push {
 		});
 	}
 
-	protected PushNotificationsDeviceService getService() {
-		return new PushNotificationsDeviceService(_session);
+	protected PushNotificationsDevice getService() {
+		if (PortalVersion.V_6_2 == _portalVersion) {
+			return new PushNotificationsDeviceService(_session);
+		}
+		else {
+			return new com.liferay.mobile.android.v70.pushnotificationsdevice.PushNotificationsDeviceService(_session);
+		}
 	}
 
 	protected void setGoogleServices(GoogleServices googleServices) {
@@ -161,6 +172,7 @@ public class Push {
 	protected OnSuccess onSuccess;
 
 	private GoogleServices _googleServices = new GoogleServices();
+	private int _portalVersion = PortalVersion.V_6_2;
 	private Session _session;
 	private PushSubscriber _subscriber;
 
