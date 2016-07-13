@@ -19,11 +19,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.liferay.mobile.android.callback.typed.JSONObjectCallback;
-import com.liferay.mobile.android.PushNotificationsDevice;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
 import com.liferay.mobile.android.util.PortalVersion;
-import com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService;
 import com.liferay.mobile.push.task.GoogleCloudMessagingAsyncTask;
 import com.liferay.mobile.push.util.GoogleServices;
 
@@ -106,29 +104,29 @@ public class Push {
 		send(toUserIds, pushNotification);
 	}
 
-	public void withPortalVersion(int version) {
-		_portalVersion = version;
-	}
-
 	public void unregister(String registrationId) throws Exception {
 		getService().deletePushNotificationsDevice(registrationId);
 	}
 
+	public void withPortalVersion(int portalVersion) {
+		_portalVersion = portalVersion;
+	}
+
 	public interface OnFailure {
 
-		public void onFailure(Exception e);
+		void onFailure(Exception e);
 
 	}
 
 	public interface OnPushNotification {
 
-		public void onPushNotification(JSONObject pushNotification);
+		void onPushNotification(JSONObject pushNotification);
 
 	}
 
 	public interface OnSuccess {
 
-		public void onSuccess(JSONObject jsonObject);
+		void onSuccess(JSONObject jsonObject);
 
 	}
 
@@ -154,13 +152,9 @@ public class Push {
 		});
 	}
 
-	protected PushNotificationsDevice getService() {
-		if (PortalVersion.V_6_2 == _portalVersion) {
-			return new PushNotificationsDeviceService(_session);
-		}
-		else {
-			return new com.liferay.mobile.android.v70.pushnotificationsdevice.PushNotificationsDeviceService(_session);
-		}
+	protected PushNotificationsDeviceServiceWrapper getService() {
+		return new PushNotificationsDeviceServiceWrapper(
+			_session, _portalVersion);
 	}
 
 	protected void setGoogleServices(GoogleServices googleServices) {
