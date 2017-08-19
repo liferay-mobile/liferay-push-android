@@ -2,8 +2,8 @@
 
 # Liferay Push for Android
 
-[![Build Status](https://travis-ci.org/brunofarache/liferay-push-android.svg?branch=master)](https://travis-ci.org/brunofarache/liferay-push-android)
-[![Coverage Status](https://coveralls.io/repos/brunofarache/liferay-push-android/badge.svg?branch=master&t=1)](https://coveralls.io/r/brunofarache/liferay-push-android?branch=master)
+[![Build Status](https://travis-ci.org/liferay-mobile/liferay-push-android.svg?branch=master)](https://travis-ci.org/liferay-mobile/liferay-push-android)
+[![Coverage Status](https://coveralls.io/repos/liferay-mobile/liferay-push-android/badge.svg?branch=master&t=1)](https://coveralls.io/r/liferay-mobile/liferay-push-android?branch=master)
 
 * [Setup](#setup)
 * [Use](#use)
@@ -17,13 +17,8 @@
 Add the library as a dependency to your project's build.gradle file:
 
 ```groovy
-repositories {
-	jcenter()
-	mavenCentral()
-}
-
 dependencies {
-	compile 'com.liferay.mobile:liferay-push:1.0.2'
+	compile 'com.liferay.mobile:liferay-push:1.1.0'
 }
 ```
 
@@ -31,11 +26,16 @@ dependencies {
 
 ### Registering a device
 
-To receive push notifications, your app must register itself to the portal first. On the portal side, each device is tied to a user. Each user can have multiple registered devices. A device is represented by a device token string. Google calls this the `registrationId`.
+To receive push notifications, your app must register itself to the portal first. On the portal side, each
+device is tied to a user. Each user can have multiple registered devices. A device is represented by a device token string. Google calls this the `registrationId`.
 
-Read [Android's documentation](http://developer.android.com/google/gcm/client.html) to learn how to get the `registrationId`.
+To register a device, we need a `SENDER_ID`, the id of our project in firebase. Read [Firebase's documentation](https://firebase.google.com/docs/cloud-messaging/) to learn how to get the `SENDER_ID`.
 
-It's easy to obtain a `registrationId` with *Liferay Push for Android*, you just have to call to the following method:
+The `SENDER_ID` is available, after creating a firebase project, in the *Cloud Messaging* tab under the project settings:
+
+<img src="docs/images/Firebase console Sender id.png">
+
+After obtaining the `SENDER_ID` it's easy to register a device with *Liferay Push for Android*, you just have to call to the following method:
 
 ```java
 import com.liferay.mobile.push.Push;
@@ -45,7 +45,11 @@ Session session = new SessionImpl("http://localhost:8080", new BasicAuthenticati
 Push.with(session).register(this, SENDER_ID);
 ```
 
-The `SENDER_ID` is the identifier of your GCM project, if you follow the official [Android's documentation](http://developer.android.com/google/gcm/client.html) it should be easy to obtain one.
+If you want to use Liferay 7.x you should manually specify the version with a call like this:
+
+```java
+push.withPortalVersion(70)
+```
 
 Since all operations are asynchronous, you can set callbacks to check if the registration succeeded or an error occurred on the server side:
 
@@ -54,7 +58,7 @@ Push.with(session)
 	.onSuccess(new Push.OnSuccess() {
 
 		@Override
-		public void onSuccess(Object result) {
+		public void onSuccess(JSONObject jsonObject) {
 			System.out.println("Device was registered!");
 		}
 
@@ -67,12 +71,19 @@ Push.with(session)
 		}
 
 	})
-	.register(registrationId);
+	.register(SENDER_ID);
 ```
 
 The `onSuccess` and `onFailure` callbacks are optional, but it's good practice to implement both. By doing so, your app can persist the device token or tell the user that an error occurred.
 
-*Liferay Push for Android* is calling the *GCM server*, retrieving the results and storing your `registrationId` in the Liferay Portal instance for later use. If you obtain the token manually, you can register the device to the portal by calling the following method:
+*Liferay Push for Android* is calling the *GCM server*, retrieving the results and storing your `registrationId` in the Liferay Portal instance for later use.
+
+All set! If everything went well, you should see a new device registered under the *Push Notifications* menu in *Configuration*. Next step is [Receiving push notifications](#receiving-push-notifications)
+
+
+#### Using the registrationId directly without registering against Liferay Portal
+
+If you obtain the token manually, you can register the device to the portal by calling the following method:
 
 ```java
 Push.with(session).register(registrationId);
@@ -84,16 +95,63 @@ You should note that the [Push](src/main/java/com/liferay/mobile/push/Push.java)
 
 ### Receiving push notifications
 
-Once your device is registered, your app must be able to listen for notifications. 
+Once your device is registered, you have to configure both the server and the client to be able to receive push messages.
 
-There are several ways to do this:
+To send notifications from Liferay you should configure the `API_KEY` inside *System Settings*, *Other* and *Android Push Notifications Sender*. To obtain the `API_KEY` you should, again, access your firebase project settings and under *Cloud Messaging*, use the **Legacy Server Key**. 
 
-* If you want to receive global notifications even if the application is not active at the moment you should implement a `BroadcastReceiver` instance in your app . [Android's developer documentation](http://developer.android.com/google/gcm/client.html#sample-receive) shows you how to do this.
+<img src="docs/images/Firebase console Server Key.png">
+ 
+Then you have to configure your project to be able to listen for notifications:
+
+* You should implement a `BroadcastReceiver` instance in your app. [Android's developer documentation](http://developer.android.com/google/gcm/client.html#sample-receive) shows you how to do this. Specifically, you should:
+
+	* Register a `<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />` in your *AndroidManifest.xml* file.
+	* Register a WAKE_LOCK permission and Internet if you had not used those permissions before:
+
+		```xml
+		<uses-permission android:name="android.permission.INTERNET" />
+		<uses-permission android:name="android.permission.WAKE_LOCK" />
+		```
+	
+	* Add a *BroadcastReceiver* and a *IntentService* to your project:
+
+		```xml
+		<receiver
+	        android:name=".PushReceiver"
+	        android:permission="com.google.android.c2dm.permission.SEND">
+	        <intent-filter>
+	            <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+	            <category android:name="com.liferay.mobile.push" />
+	        </intent-filter>
+	    </receiver>
+	
+	   <service android:name=".PushService" />
+		```
+	
+	* The code implementing those classes is really simple:
+
+		```java
+		public class PushReceiver extends PushNotificationsReceiver {
+		    @Override
+		    public String getServiceClassName() {
+		        return PushService.class.getName();
+		    }
+		}
+		
+		public class PushService extends PushNotificationsService {
+			 @Override
+		    public void onPushNotification(JSONObject jsonObject) {
+		        super.onPushNotification(jsonObject);
+		        
+		        // Your own code to deal with the push notification
+		    }
+		}
+		```
 
 * If you want to execute an action or show a notification only if the application is active, you could register a callback:
 
 ```java
-Push.with(session).onPushNotification(new Push.OnPushNotification()
+Push.with(session).onPushNotification(new Push.OnPushNotification() {
 
 	@Override
 	public void onPushNotification(JSONObject jsonObject) {
