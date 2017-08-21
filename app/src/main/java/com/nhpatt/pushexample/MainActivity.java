@@ -6,10 +6,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.liferay.mobile.android.auth.basic.BasicAuthentication;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
 import com.liferay.mobile.push.Push;
+
 import org.json.JSONObject;
 
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -35,7 +37,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				Log.d(TAG, success.toString());
 				push.onPushNotification(jsonObject -> runOnUiThread(() -> showToast(jsonObject)));
 			}).onFailure(this::logError).register(this, "862746724485");
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			logError(e);
 		}
 	}
@@ -50,7 +53,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			pushNotification.put("body", pushMessage);
 
 			push.send(54205, pushNotification);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			logError(e);
 		}
 	}

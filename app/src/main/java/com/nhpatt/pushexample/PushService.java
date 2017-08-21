@@ -11,7 +11,6 @@ public class PushService extends PushNotificationsService {
 	@Override
 	public void onPushNotification(JSONObject jsonObject) {
 		super.onPushNotification(jsonObject);
-		Log.d("PUSH_NOTIFICATION", "Push notification received!" + jsonObject.toString());
+		Log.d("LiferayPushDemoApp", "Push notification received!" + jsonObject.toString());
 	}
-
 }
