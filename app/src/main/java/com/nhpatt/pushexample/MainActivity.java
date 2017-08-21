@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         Session session = new SessionImpl(
-                "http://localhost:8080", new BasicAuthentication("test@liferay.com", "test"));
+                "http://screens.liferay.org.es", new BasicAuthentication("push@liferay.com", "push"));
 
         try {
             Push push = Push.with(session);
