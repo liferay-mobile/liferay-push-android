@@ -108,8 +108,9 @@ public class Push {
 		getService().deletePushNotificationsDevice(registrationId);
 	}
 
-	public void withPortalVersion(int portalVersion) {
+	public Push withPortalVersion(int portalVersion) {
 		_portalVersion = portalVersion;
+		return this;
 	}
 
 	public interface OnFailure {
