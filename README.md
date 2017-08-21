@@ -33,7 +33,7 @@ To register a device, we need a `SENDER_ID`, the id of our project in firebase. 
 
 The `SENDER_ID` is available, after creating a firebase project, in the *Cloud Messaging* tab under the project settings:
 
-<img src="docs/images/Firebase console Sender id.png">
+<img src="docs/images/Firebase Console Sender Id.png">
 
 After obtaining the `SENDER_ID` it's easy to register a device with *Liferay Push for Android*, you just have to call to the following method:
 
@@ -99,7 +99,7 @@ Once your device is registered, you have to configure both the server and the cl
 
 To send notifications from Liferay you should configure the `API_KEY` inside *System Settings*, *Other* and *Android Push Notifications Sender*. To obtain the `API_KEY` you should, again, access your firebase project settings and under *Cloud Messaging*, use the **Legacy Server Key**. 
 
-<img src="docs/images/Firebase console Server Key.png">
+<img src="docs/images/Firebase Console Server Key.png">
  
 Then you have to configure your project to be able to listen for notifications:
 
