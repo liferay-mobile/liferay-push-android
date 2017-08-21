@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">PushExample</string>
+    <string name="title_activity_screens">ScreensActivity</string>
+</resources>
