@@ -45,7 +45,7 @@ Session session = new SessionImpl("http://localhost:8080", new BasicAuthenticati
 Push.with(session).register(this, SENDER_ID);
 ```
 
-If you want to use Liferay 7.x you should manually specify the version with a call like this:
+**If you want to use Liferay 7.x you should manually specify the version** with a call like this:
 
 ```java
 push.withPortalVersion(70)
@@ -77,6 +77,16 @@ Push.with(session)
 The `onSuccess` and `onFailure` callbacks are optional, but it's good practice to implement both. By doing so, your app can persist the device token or tell the user that an error occurred.
 
 *Liferay Push for Android* is calling the *GCM server*, retrieving the results and storing your `registrationId` in the Liferay Portal instance for later use.
+
+Don't forget to add in your app the *Internet* permission if you haven't done it already:
+
+		```xml
+		<uses-permission android:name="android.permission.INTERNET" />
+		```
+		
+And, if you are using Liferay 7, you will have to add permissions to be able to register the device in the portal:
+
+<img src="docs/images/Liferay Permissions.png">
 
 All set! If everything went well, you should see a new device registered under the *Push Notifications* menu in *Configuration*. Next step is [Receiving push notifications](#receiving-push-notifications)
 
