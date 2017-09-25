@@ -80,9 +80,9 @@ The `onSuccess` and `onFailure` callbacks are optional, but it's good practice t
 
 Don't forget to add in your app the *Internet* permission if you haven't done it already:
 
-		```xml
-		<uses-permission android:name="android.permission.INTERNET" />
-		```
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+```
 		
 And, if you are using Liferay 7, you will have to add permissions to be able to register the device in the portal:
 
