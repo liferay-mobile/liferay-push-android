@@ -9,33 +9,33 @@ format.workingDir = 'src'
 dependencies {
 	compile group: 'com.google.android.gms', name: 'play-services-gcm', version: '7.0.0'
 	compile group: 'com.liferay.mobile', name: 'liferay-android-sdk', version: '2.0.2'
-	compile group: 'com.squareup', name: 'otto', version: '1.3.6'
+	compile group: 'com.squareup', name: 'otto', version: '1.3.8'
 
 	testCompile group: 'junit', name: 'junit', version: '4.12'
 	testCompile group: 'org.apache.maven', name: 'maven-ant-tasks', version: '2.1.3'
-	testCompile group: 'org.mockito', name: 'mockito-core', version: '1.10.19'
-	testCompile group: 'org.robolectric', name: 'robolectric', version: '2.4'
+	testCompile group: 'org.mockito', name: 'mockito-core', version: '2.8.47'
+	testCompile group: 'org.robolectric', name: 'robolectric', version: '3.4.2'
 }
 
 buildscript {
 	repositories {
-		mavenCentral()
+		jcenter()
 	}
 
 	dependencies {
-		classpath 'com.android.tools.build:gradle:1.2.3'
-		classpath 'com.github.dcendents:android-maven-plugin:1.2'
+		classpath 'com.android.tools.build:gradle:2.3.2'
+		classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
 		classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.3.1'
 	}
 }
 
 android {
-	compileSdkVersion 21
-	buildToolsVersion "21.1.2"
+	compileSdkVersion 25
+	buildToolsVersion "25.0.2"
 
 	defaultConfig {
 		minSdkVersion 15
-		targetSdkVersion 21
+		targetSdkVersion 25
 	}
 
     lintOptions {
@@ -56,6 +56,7 @@ android {
 			java.srcDirs += 'build/generated/source/r/debug'
 		}
 	}
+
 }
 
 def srcDirs = files(android.sourceSets.main.java.srcDirs)
