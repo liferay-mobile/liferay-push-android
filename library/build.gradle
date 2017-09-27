@@ -61,7 +61,7 @@ android {
 
 def srcDirs = files(android.sourceSets.main.java.srcDirs)
 
-task coverage(type:JacocoReport, dependsOn: "testDebug") {
+task coverage(type:JacocoReport, dependsOn: "testDebugUnitTest") {
 	description = "Coverage Report"
 
 	classDirectories = fileTree(
