@@ -24,6 +24,7 @@ import com.liferay.mobile.android.service.SessionImpl;
 import org.junit.Before;
 
 import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 
 /**
  * @author Bruno Farache
@@ -32,7 +33,7 @@ public abstract class BaseTest {
 
 	@Before
 	public void setup() {
-		Context context = Robolectric.application;
+		Context context = RuntimeEnvironment.application;
 
 		String username = System.getenv("PUSH_USERNAME");
 

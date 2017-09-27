@@ -18,17 +18,16 @@ import com.liferay.mobile.push.bus.BusUtil;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.fail;
 
 /**
  * @author Bruno Farache
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest = "src/main/AndroidManifest.xml", emulateSdk = 18)
+@Config(constants = BuildConfig.class)
 public class BusTest extends BaseTest {
 
 	@Test
