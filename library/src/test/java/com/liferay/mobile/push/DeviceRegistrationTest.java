@@ -22,21 +22,18 @@ import junit.framework.Assert;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.mockito.Mockito;
-
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowApplication;
 
 /**
  * @author Bruno Farache
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest = "src/main/AndroidManifest.xml", emulateSdk = 18)
+@Config(constants = BuildConfig.class)
 public class DeviceRegistrationTest extends BaseTest {
 
 	@Test
@@ -60,30 +57,30 @@ public class DeviceRegistrationTest extends BaseTest {
 			}
 
 		})
-		.onFailure(new Push.OnFailure() {
+			.onFailure(new Push.OnFailure() {
 
-			@Override
-			public void onFailure(Exception e) {
-				Assert.fail(e.getMessage());
-			}
+				@Override
+				public void onFailure(Exception e) {
+					Assert.fail(e.getMessage());
+				}
 
-		})
-		.register(registrationId);
+			})
+			.register(registrationId);
 
-		Robolectric.runBackgroundTasks();
+		ShadowApplication.runBackgroundTasks();
 	}
 
 	@Test
 	public void registerWithSenderId() throws Exception {
 		GoogleServices googleServices = Mockito.mock(GoogleServices.class);
-		Context context = Robolectric.application;
+		Context context = ShadowApplication.getInstance().getApplicationContext();
 		String senderId = "senderId";
 
 		final String registrationId = "123";
 
 		Mockito.when(
 			googleServices.getRegistrationId(context, senderId))
-		.thenReturn(registrationId);
+			.thenReturn(registrationId);
 
 		push.setGoogleServices(googleServices);
 
@@ -105,7 +102,7 @@ public class DeviceRegistrationTest extends BaseTest {
 
 		}).register(context, senderId);
 
-		Robolectric.runBackgroundTasks();
+		ShadowApplication.runBackgroundTasks();
 	}
 
 	@Test
@@ -129,9 +126,9 @@ public class DeviceRegistrationTest extends BaseTest {
 			}
 
 		})
-		.unregister(registrationId);
+			.unregister(registrationId);
 
-		Robolectric.runBackgroundTasks();
+		ShadowApplication.runBackgroundTasks();
 	}
 
 	protected void register(String registrationId) throws Exception {
@@ -143,9 +140,9 @@ public class DeviceRegistrationTest extends BaseTest {
 			}
 
 		})
-		.register(registrationId);
+			.register(registrationId);
 
-		Robolectric.runBackgroundTasks();
+		ShadowApplication.runBackgroundTasks();
 	}
 
 }
