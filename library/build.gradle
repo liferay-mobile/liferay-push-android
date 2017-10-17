@@ -8,39 +8,29 @@ format.workingDir = 'src'
 
 dependencies {
 	compile group: 'com.google.android.gms', name: 'play-services-gcm', version: '7.0.0'
-	compile group: 'com.liferay.mobile', name: 'liferay-android-sdk', version: '2.0.2'
-	compile group: 'com.squareup', name: 'otto', version: '1.3.8'
-
-	testCompile group: 'junit', name: 'junit', version: '4.12'
-	testCompile group: 'org.apache.maven', name: 'maven-ant-tasks', version: '2.1.3'
-	testCompile group: 'org.mockito', name: 'mockito-core', version: '2.8.47'
-	testCompile group: 'org.robolectric', name: 'robolectric', version: '3.4.2'
-}
-
-buildscript {
-	repositories {
-		jcenter()
+	compile('com.liferay.mobile:liferay-android-sdk:2.0.2') {
+		exclude group: 'com.google.android'
 	}
+	compile 'com.squareup:otto:1.3.8'
 
-	dependencies {
-		classpath 'com.android.tools.build:gradle:2.3.2'
-		classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
-		classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.3.1'
-	}
+	testCompile 'junit:junit:4.12'
+	testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
+	testCompile 'org.mockito:mockito-core:2.8.47'
+	testCompile 'org.robolectric:robolectric:3.4.2'
 }
 
 android {
 	compileSdkVersion 25
-	buildToolsVersion "25.0.2"
+	buildToolsVersion "26.0.2"
 
 	defaultConfig {
 		minSdkVersion 15
 		targetSdkVersion 25
 	}
 
-    lintOptions {
-        disable 'InvalidPackage'
-    }
+	lintOptions {
+		disable 'InvalidPackage'
+	}
 
 	packagingOptions {
 		exclude 'META-INF/LICENSE'
@@ -64,18 +54,14 @@ def srcDirs = files(android.sourceSets.main.java.srcDirs)
 task coverage(type:JacocoReport, dependsOn: "testDebugUnitTest") {
 	description = "Coverage Report"
 
-	classDirectories = fileTree(
-		dir: "$buildDir/intermediates/classes/debug",
-		excludes: [
-			'**/R.class',
-			'**/R$*.class',
-			'**/BuildConfig.*',
-			'**/Manifest*.*',
-			'**/BitmapRequestBuilder.class',
-			'**/DrawableRequestBuilder.class',
-			'**/GifRequestBuilder.class'
-		]
-	)
+	classDirectories = fileTree(dir: "$buildDir/intermediates/classes/debug",
+		excludes: ['**/R.class',
+		           '**/R$*.class',
+		           '**/BuildConfig.*',
+		           '**/Manifest*.*',
+		           '**/BitmapRequestBuilder.class',
+		           '**/DrawableRequestBuilder.class',
+		           '**/GifRequestBuilder.class'])
 
 	sourceDirectories = srcDirs
 	executionData = files("$buildDir/jacoco/testDebug.exec")
