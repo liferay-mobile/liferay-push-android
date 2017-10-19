@@ -28,6 +28,7 @@ import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowApplication;
+import org.robolectric.shadows.ShadowLooper;
 
 /**
  * @author Bruno Farache
@@ -56,18 +57,16 @@ public class DeviceRegistrationTest extends BaseTest {
 				}
 			}
 
-		})
-			.onFailure(new Push.OnFailure() {
+		}).onFailure(new Push.OnFailure() {
 
-				@Override
-				public void onFailure(Exception e) {
-					Assert.fail(e.getMessage());
-				}
+			@Override
+			public void onFailure(Exception e) {
+				Assert.fail(e.getMessage());
+			}
 
-			})
-			.register(registrationId);
+		}).register(registrationId);
 
-		ShadowApplication.runBackgroundTasks();
+		executeAsyncTasks();
 	}
 
 	@Test
@@ -102,7 +101,7 @@ public class DeviceRegistrationTest extends BaseTest {
 
 		}).register(context, senderId);
 
-		ShadowApplication.runBackgroundTasks();
+		executeAsyncTasks();
 	}
 
 	@Test
@@ -125,10 +124,9 @@ public class DeviceRegistrationTest extends BaseTest {
 				}
 			}
 
-		})
-			.unregister(registrationId);
+		}).unregister(registrationId);
 
-		ShadowApplication.runBackgroundTasks();
+		executeAsyncTasks();
 	}
 
 	protected void register(String registrationId) throws Exception {
@@ -139,8 +137,7 @@ public class DeviceRegistrationTest extends BaseTest {
 				Assert.fail(e.getMessage());
 			}
 
-		})
-			.register(registrationId);
+		}).register(registrationId);
 
 		ShadowApplication.runBackgroundTasks();
 	}

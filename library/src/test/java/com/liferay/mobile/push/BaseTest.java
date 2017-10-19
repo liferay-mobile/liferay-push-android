@@ -22,9 +22,8 @@ import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
 
 import org.junit.Before;
-
-import org.robolectric.Robolectric;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.shadows.ShadowLooper;
 
 /**
  * @author Bruno Farache
@@ -55,8 +54,18 @@ public abstract class BaseTest {
 
 		Authentication auth = new BasicAuthentication(username, password);
 		Session session = new SessionImpl(server, auth);
+		push = Push.with(session).withPortalVersion(70);
+	}
 
-		push = Push.with(session);
+	protected void executeAsyncTasks() {
+		try {
+			ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
+			Thread.sleep(1000);
+			ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
+		}
+		catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	protected Push push;
