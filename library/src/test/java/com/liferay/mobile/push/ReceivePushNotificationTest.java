@@ -45,49 +45,6 @@ import java.util.List;
 public class ReceivePushNotificationTest extends BaseTest {
 
 	@Test
-	public void isIntentRegistered() {
-		ShadowApplication app = ShadowApplication.getInstance();
-
-		Intent intent = new Intent("com.google.android.c2dm.intent.RECEIVE");
-
-		List<BroadcastReceiver> receivers = app.getReceiversForIntent(intent);
-
-		Assert.assertEquals(0, receivers.size());
-
-//		BroadcastReceiver receiver = receivers.get(0);
-//
-//		receiver.onReceive(app.getApplicationContext(), intent);
-//
-//		Intent startedIntent = app.peekNextStartedService();
-//		String componentClassName = startedIntent.getComponent().getClassName();
-//
-//		Assert.assertEquals(
-//			PushNotificationsService.class.getCanonicalName(),
-//			componentClassName);
-	}
-
-	@Test
-	public void isReceiverRegistered() throws Exception {
-		ShadowApplication app = ShadowApplication.getInstance();
-
-		List<Wrapper> wrappers = app.getRegisteredReceivers();
-
-		Assert.assertTrue(wrappers.isEmpty());
-
-//		BroadcastReceiver receiver = null;
-//
-//		for (Wrapper wrapper : wrappers) {
-//			if (wrapper.broadcastReceiver instanceof
-//					PushNotificationsReceiver) {
-//
-//				receiver = wrapper.broadcastReceiver;
-//			}
-//		}
-//
-//		Assert.assertNotNull(receiver);
-	}
-
-	@Test
 	public void receivePushNotification() throws JSONException {
 		final String body = "body";
 		final String message = "message";
