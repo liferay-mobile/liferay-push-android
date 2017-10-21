@@ -6,7 +6,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-rc1'
+        classpath 'com.android.tools.build:gradle:3.0.0-rc2'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
     }
@@ -39,7 +39,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile('com.liferay.mobile:liferay-push:1.1.0') {
+    compile('com.liferay.mobile:liferay-push:1.1.1') {
         exclude group: 'com.google.android'
     }
 

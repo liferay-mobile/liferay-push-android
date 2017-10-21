@@ -46,7 +46,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	@Override
 	public void onClick(View v) {
 		try {
-			EditText pushMessageView = (EditText) findViewById(R.id.push_message);
+			EditText pushMessageView = findViewById(R.id.push_message);
 			String pushMessage = pushMessageView.getText().toString();
 
 			JSONObject pushNotification = new JSONObject();
