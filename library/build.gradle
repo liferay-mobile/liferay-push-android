@@ -7,72 +7,72 @@ apply from: 'https://raw.githubusercontent.com/brunofarache/liferay-mobile-sdk/m
 format.workingDir = 'src'
 
 dependencies {
-	compile group: 'com.google.android.gms', name: 'play-services-gcm', version: '7.0.0'
-	compile('com.liferay.mobile:liferay-android-sdk:2.0.2') {
-		exclude group: 'com.google.android'
-	}
-	compile 'com.squareup:otto:1.3.8'
+    compile group: 'com.google.android.gms', name: 'play-services-gcm', version: '7.0.0'
+    compile('com.liferay.mobile:liferay-android-sdk:2.0.2') {
+        exclude group: 'com.google.android'
+    }
+    compile 'com.squareup:otto:1.3.8'
 
-	testCompile 'junit:junit:4.12'
-	testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
-	testCompile 'org.mockito:mockito-core:2.11.0'
-	testCompile 'org.robolectric:robolectric:3.6.1'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
+    testCompile 'org.mockito:mockito-core:2.11.0'
+    testCompile 'org.robolectric:robolectric:3.6.1'
 }
 
 android {
-	compileSdkVersion 25
-	buildToolsVersion "26.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "26.0.2"
 
-	defaultConfig {
-		minSdkVersion 15
-		targetSdkVersion 25
-	}
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 25
+    }
 
-	lintOptions {
-		disable 'InvalidPackage'
-	}
+    lintOptions {
+        disable 'InvalidPackage'
+    }
 
-	packagingOptions {
-		exclude 'META-INF/LICENSE'
-		exclude 'META-INF/NOTICE'
-	}
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
 
-	sourceSets {
-		main {
-			java.srcDirs += 'src/gen/java'
-		}
+    sourceSets {
+        main {
+            java.srcDirs += 'src/gen/java'
+        }
 
-		test {
-			java.srcDirs += 'build/generated/source/r/debug'
-		}
-	}
-
+        test {
+            java.srcDirs += 'build/generated/source/r/debug'
+        }
+    }
+    testOptions.unitTests.includeAndroidResources true
 }
 
 def srcDirs = files(android.sourceSets.main.java.srcDirs)
 
-task coverage(type:JacocoReport, dependsOn: "testDebugUnitTest") {
-	description = "Coverage Report"
+task coverage(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    description = "Coverage Report"
 
-	classDirectories = fileTree(dir: "$buildDir/intermediates/classes/debug",
-		excludes: ['**/R.class',
-		           '**/R$*.class',
-		           '**/BuildConfig.*',
-		           '**/Manifest*.*',
-		           '**/BitmapRequestBuilder.class',
-		           '**/DrawableRequestBuilder.class',
-		           '**/GifRequestBuilder.class'])
+    classDirectories = fileTree(dir: "$buildDir/intermediates/classes/debug",
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*',
+                       '**/BitmapRequestBuilder.class',
+                       '**/DrawableRequestBuilder.class',
+                       '**/GifRequestBuilder.class'])
 
-	sourceDirectories = srcDirs
-	executionData = files("$buildDir/jacoco/testDebug.exec")
+    sourceDirectories = srcDirs
+    executionData = files("$buildDir/jacoco/testDebug.exec")
 
-	reports {
-		html.enabled = true
-		xml.enabled = true
-	}
+    reports {
+        html.enabled = true
+        xml.enabled = true
+    }
 }
 
 coveralls {
-	jacocoReportPath = "$buildDir/reports/jacoco/coverage/coverage.xml"
-	sourceDirs = srcDirs.files.absolutePath
+    jacocoReportPath = "$buildDir/reports/jacoco/coverage/coverage.xml"
+    sourceDirs = srcDirs.files.absolutePath
 }
