@@ -133,6 +133,7 @@ public class Push {
 
 	protected Push(Session session) {
 		_session = new SessionImpl(session);
+		_session.setHeaders(session.getHeaders());
 		_subscriber = new PushSubscriber(this);
 		_session.setCallback(new JSONObjectCallback() {
 
