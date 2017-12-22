@@ -83,7 +83,7 @@ Don't forget to add in your app the *Internet* permission if you haven't done it
 ```xml
 <uses-permission android:name="android.permission.INTERNET" />
 ```
-		
+
 And, if you are using Liferay 7, you will have to add permissions to be able to register the device in the portal:
 
 <img src="docs/images/Liferay Permissions.png">

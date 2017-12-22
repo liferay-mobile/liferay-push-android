@@ -1,3 +1,5 @@
 include ':library'
-
 project(':library').name = 'liferay-push'
+
+include ':app'
+project(':app').name = 'liferay-push-demo-app'

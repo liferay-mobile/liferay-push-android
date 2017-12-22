@@ -18,10 +18,11 @@ cache:
 android:
   components:
     - tools
-    - build-tools-25.0.0
+    - build-tools-26.0.1
     - build-tools-26.0.2
     - platform-tools
     - android-21
+    - android-26
     - extra-google-m2repository
     - extra-android-m2repository
     - sys-img-armeabi-v7a-android-21
