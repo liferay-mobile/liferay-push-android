@@ -60,6 +60,7 @@ Push.with(session)
 		@Override
 		public void onSuccess(JSONObject jsonObject) {
 			System.out.println("Device was registered!");
+			registrationId = jsonObject.getString("token");
 		}
 
 	})
@@ -71,10 +72,10 @@ Push.with(session)
 		}
 
 	})
-	.register(SENDER_ID);
+	.register(this, SENDER_ID);
 ```
 
-The `onSuccess` and `onFailure` callbacks are optional, but it's good practice to implement both. By doing so, your app can persist the device token or tell the user that an error occurred.
+The `onSuccess` and `onFailure` callbacks are optional, but it's good practice to implement both. By doing so, your app can persist the registrationId device token or tell the user that an error occurred.
 
 *Liferay Push for Android* is calling the *GCM server*, retrieving the results and storing your `registrationId` in the Liferay Portal instance for later use.
 
@@ -83,7 +84,7 @@ Don't forget to add in your app the *Internet* permission if you haven't done it
 ```xml
 <uses-permission android:name="android.permission.INTERNET" />
 ```
-
+		
 And, if you are using Liferay 7, you will have to add permissions to be able to register the device in the portal:
 
 <img src="docs/images/Liferay Permissions.png">
