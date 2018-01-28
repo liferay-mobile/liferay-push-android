@@ -108,6 +108,10 @@ public class Push {
 		getService().deletePushNotificationsDevice(registrationId);
 	}
 
+	public void unsubscribe() {
+		_subscriber.unsubscribe();
+	}
+
 	public Push withPortalVersion(int portalVersion) {
 		_portalVersion = portalVersion;
 		return this;
