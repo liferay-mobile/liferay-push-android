@@ -28,6 +28,10 @@ public class BusUtil {
 		getInstance().post(event);
 	}
 
+	public static void post(Exception e) {
+		getInstance().post(e);
+	}
+
 	public static void subscribe(Object object) {
 		getInstance().register(object);
 	}
