@@ -7,16 +7,17 @@ apply from: 'https://raw.githubusercontent.com/brunofarache/liferay-mobile-sdk/m
 format.workingDir = 'src'
 
 dependencies {
-    compile group: 'com.google.android.gms', name: 'play-services-gcm', version: '9.0.2'
-    compile('com.liferay.mobile:liferay-android-sdk:2.0.2') {
+    implementation group: 'com.google.android.gms', name: 'play-services-gcm', version: '9.0.2'
+	implementation('com.liferay.mobile:liferay-android-sdk:2.0.2') {
         exclude group: 'com.google.android'
     }
-    compile 'com.squareup:otto:1.3.8'
+	implementation 'com.squareup:otto:1.3.8'
+    api 'com.android.support:support-v4:27.1.1'
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
-    testCompile 'org.mockito:mockito-core:2.11.0'
-    testCompile 'org.robolectric:robolectric:3.6.1'
+    testImplementation 'junit:junit:4.12'
+	testImplementation 'org.apache.maven:maven-ant-tasks:2.1.3'
+	testImplementation 'org.mockito:mockito-core:2.11.0'
+	testImplementation 'org.robolectric:robolectric:3.6.1'
 }
 
 android {
