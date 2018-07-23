@@ -18,8 +18,17 @@ Add the library as a dependency to your project's build.gradle file:
 
 ```groovy
 dependencies {
-	compile 'com.liferay.mobile:liferay-push:1.1.1'
+	compile 'com.liferay.mobile:liferay-push:1.2.0'
 }
+```
+
+### Breaking changes in version 1.2.0
+
+Since version 1.2.0 you have to add a new property when declaring the PushService:
+
+```xml
+<service android:name=".PushService"
+	android:permission="android.permission.BIND_JOB_SERVICE" /> <!--You have to add this-->
 ```
 
 ## Use
@@ -136,7 +145,8 @@ Then you have to configure your project to be able to listen for notifications:
 	        </intent-filter>
 	    </receiver>
 	
-	   <service android:name=".PushService" />
+	   <service android:name=".PushService" 
+	   		android:permission="android.permission.BIND_JOB_SERVICE"/>
 		```
 	
 	* The code implementing those classes is really simple:
