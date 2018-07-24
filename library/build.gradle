@@ -2,9 +2,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
 
-apply from: 'https://raw.githubusercontent.com/brunofarache/liferay-mobile-sdk/master/release-aar.gradle'
 apply from: 'https://raw.githubusercontent.com/brunofarache/liferay-mobile-sdk/master/formatter.gradle'
 format.workingDir = 'src'
+
 
 dependencies {
     implementation group: 'com.google.android.gms', name: 'play-services-gcm', version: '9.0.2'
@@ -19,6 +19,30 @@ dependencies {
 	testImplementation 'org.mockito:mockito-core:2.11.0'
 	testImplementation 'org.robolectric:robolectric:3.6.1'
 }
+
+ext {
+    versionCode = 120
+    versionName = '1.2.0'
+
+    publishedGroupId = 'com.liferay.mobile'
+    libraryName = project.description
+    libraryDescription = project.description
+
+    bintrayRepo = 'liferay-mobile'
+    bintrayOrg = 'liferay'
+
+    siteUrl = 'https://github.com/liferay-mobile/liferay-push-android'
+    gitUrl = 'https://github.com/liferay-mobile/liferay-push-android.git'
+
+    developerId = '75308789'
+    developerName = 'Victor'
+    developerEmail = 'gagranta@gmail.com'
+
+    licenseName = 'GNU Lesser General Public License, version 2.1'
+    licenseUrl = 'http://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html'
+    allLicenses = ["LGPL-2.1"]
+}
+
 
 android {
     compileSdkVersion 25
@@ -77,3 +101,6 @@ coveralls {
     jacocoReportPath = "$buildDir/reports/jacoco/coverage/coverage.xml"
     sourceDirs = srcDirs.files.absolutePath
 }
+
+apply from: 'install.gradle'
+apply from: 'bintray.gradle'
