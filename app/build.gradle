@@ -40,7 +40,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation('com.liferay.mobile:liferay-push:1.1.1') {
+    implementation('com.liferay.mobile:liferay-push:1.2.0') {
         exclude group: 'com.google.android'
     }
 
@@ -54,3 +54,4 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
+
