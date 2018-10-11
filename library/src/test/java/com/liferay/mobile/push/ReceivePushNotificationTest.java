@@ -84,7 +84,7 @@ public class ReceivePushNotificationTest extends BaseTest {
 
 		});
 
-		service.onHandleIntent(intent);
+		service.onHandleWork(intent);
 	}
 
 }
