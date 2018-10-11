@@ -7,12 +7,15 @@ format.workingDir = 'src'
 
 
 dependencies {
-    implementation group: 'com.google.android.gms', name: 'play-services-gcm', version: '9.0.2'
-	implementation('com.liferay.mobile:liferay-android-sdk:2.0.2') {
+    implementation(group: 'com.google.android.gms', name: 'play-services-gcm', version: '9.0.2') {
+        exclude module: 'support-v4'
+    }
+	implementation('com.liferay.mobile:liferay-android-sdk-core:7.1.+') {
         exclude group: 'com.google.android'
+        exclude module: 'customtabs'
     }
 	implementation 'com.squareup:otto:1.3.8'
-    api 'com.android.support:support-v4:27.1.1'
+    api 'com.android.support:support-core-utils:27.1.1'
 
     testImplementation 'junit:junit:4.12'
 	testImplementation 'org.apache.maven:maven-ant-tasks:2.1.3'
@@ -22,7 +25,7 @@ dependencies {
 
 ext {
     versionCode = 120
-    versionName = '1.2.0'
+    versionName = '1.2.1'
 
     publishedGroupId = 'com.liferay.mobile'
     libraryName = project.description
@@ -45,12 +48,12 @@ ext {
 
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 27
     }
 
     lintOptions {
