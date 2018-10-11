@@ -20,9 +20,11 @@ android:
     - tools
     - build-tools-26.0.1
     - build-tools-26.0.2
+    - build-tools-27.0.3
     - platform-tools
     - android-21
     - android-26
+    - android-27
     - extra-google-m2repository
     - extra-android-m2repository
     - sys-img-armeabi-v7a-android-21
