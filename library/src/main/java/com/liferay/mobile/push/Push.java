@@ -36,7 +36,7 @@ import org.json.JSONObject;
  */
 public class Push {
 
-	public static final String ANDROID = "android";
+	public static final String FIREBASE = "firebase";
 
 	public static Push with(Session session) {
 		return new Push(session);
@@ -79,7 +79,7 @@ public class Push {
 	}
 
 	public void register(String registrationId) throws Exception {
-		getService().addPushNotificationsDevice(registrationId, ANDROID);
+		getService().addPushNotificationsDevice(registrationId, FIREBASE);
 	}
 
 	public void send(List<Long> toUserIds, JSONObject pushNotification)

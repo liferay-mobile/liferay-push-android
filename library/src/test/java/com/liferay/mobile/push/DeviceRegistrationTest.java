@@ -28,7 +28,6 @@ import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowApplication;
-import org.robolectric.shadows.ShadowLooper;
 
 /**
  * @author Bruno Farache
@@ -48,7 +47,7 @@ public class DeviceRegistrationTest extends BaseTest {
 				try {
 					Assert.assertNotNull(device);
 					Assert.assertEquals(
-						Push.ANDROID, device.getString("platform"));
+						Push.FIREBASE, device.getString("platform"));
 					Assert.assertEquals(
 						registrationId, device.getString("token"));
 				}
@@ -90,7 +89,7 @@ public class DeviceRegistrationTest extends BaseTest {
 				try {
 					Assert.assertNotNull(device);
 					Assert.assertEquals(
-						Push.ANDROID, device.getString("platform"));
+						Push.FIREBASE, device.getString("platform"));
 					Assert.assertEquals(
 						registrationId, device.getString("token"));
 				}
