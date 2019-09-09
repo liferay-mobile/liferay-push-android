@@ -18,9 +18,19 @@ Add the library as a dependency to your project's build.gradle file:
 
 ```groovy
 dependencies {
-	compile 'com.liferay.mobile:liferay-push:1.2.0'
+	compile 'com.liferay.mobile:liferay-push:1.3.0'
 }
 ```
+
+If you are using **liferay-mobile-sdk version <= 7.1.3** or **liferay-screens version <= 5.0.0**
+You should use this version instead
+
+```groovy
+dependencies {
+	compile 'com.liferay.mobile:liferay-push:1.2.0.1'
+}
+```
+
 
 ### Breaking changes in version 1.2.0
 
@@ -117,7 +127,7 @@ You should note that the [Push](src/main/java/com/liferay/mobile/push/Push.java)
 
 Once your device is registered, you have to configure both the server and the client to be able to receive push messages.
 
-To send notifications from Liferay you should configure the `API_KEY` inside *System Settings*, *Other* and *Android Push Notifications Sender*. To obtain the `API_KEY` you should, again, access your firebase project settings and under *Cloud Messaging*, use the **Legacy Server Key**. 
+To send notifications from Liferay you should configure the `API_KEY` inside *System Settings*, *Notifications* and *Firebase*. To obtain the `API_KEY` you should, again, access your firebase project settings and under *Cloud Messaging*, use the **Server Key**. 
 
 <img src="docs/images/Firebase Console Server Key.png">
  
