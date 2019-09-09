@@ -18,7 +18,7 @@ Add the library as a dependency to your project's build.gradle file:
 
 ```groovy
 dependencies {
-	compile 'com.liferay.mobile:liferay-push:1.3.0'
+	implementation 'com.liferay.mobile:liferay-push:1.3.0'
 }
 ```
 
@@ -27,7 +27,7 @@ You should use this version instead
 
 ```groovy
 dependencies {
-	compile 'com.liferay.mobile:liferay-push:1.2.0.1'
+	implementation 'com.liferay.mobile:liferay-push:1.2.0.1'
 }
 ```
 
