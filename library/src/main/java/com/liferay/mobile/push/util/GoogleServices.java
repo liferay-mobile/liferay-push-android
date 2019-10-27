@@ -57,17 +57,17 @@ public class GoogleServices {
 				"Push notification body is empty.");
 		}
 
+		String body = extras.getString("gcm.notification.body", null);
+
 		String payload = extras.getString("payload", null);
 
-		if (payload == null) {
-			throw new PushNotificationReceiverException(
-				"Push notification without payload.");
-		}
-
 		try {
-			JSONObject pushNotification = new JSONObject(payload);
 
-			return pushNotification;
+			JSONObject jsonObject = payload == null ? new JSONObject() : new JSONObject(payload);
+
+			jsonObject.put("body", body);
+
+			return jsonObject;
 		}
 		catch (JSONException je) {
 			throw new PushNotificationReceiverException(je);
