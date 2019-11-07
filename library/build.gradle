@@ -5,103 +5,100 @@ apply plugin: 'com.github.kt3k.coveralls'
 apply from: 'https://raw.githubusercontent.com/brunofarache/liferay-mobile-sdk/master/formatter.gradle'
 format.workingDir = 'src'
 
-
 dependencies {
-    implementation(group: 'com.google.android.gms', name: 'play-services-gcm', version: '16.1.0') {
-    }
+	implementation(group: 'com.google.android.gms', name: 'play-services-gcm', version: '16.1.0') {}
 	implementation('com.liferay.mobile:liferay-android-sdk-core:7.1.+') {
-        exclude group: 'com.google.android'
-        exclude module: 'customtabs'
-    }
+		exclude group: 'com.google.android'
+		exclude module: 'customtabs'
+	}
 	implementation 'com.squareup:otto:1.3.8'
-    api 'androidx.legacy:legacy-support-core-utils:1.0.0'
+	api 'androidx.legacy:legacy-support-core-utils:1.0.0'
 
-    testImplementation 'junit:junit:4.12'
+	testImplementation 'junit:junit:4.12'
 	testImplementation 'org.apache.maven:maven-ant-tasks:2.1.3'
 	testImplementation 'org.mockito:mockito-core:2.11.0'
 	testImplementation 'org.robolectric:robolectric:3.6.1'
 }
 
 ext {
-    versionCode = 131
-    versionName = '1.3.1-beta.2'
+	versionCode = 131
+	versionName = '1.3.1-beta.2'
 
-    publishedGroupId = 'com.liferay.mobile'
-    libraryName = project.description
-    libraryDescription = project.description
+	publishedGroupId = 'com.liferay.mobile'
+	libraryName = project.description
+	libraryDescription = project.description
 
-    bintrayRepo = 'liferay-mobile'
-    bintrayOrg = 'liferay'
+	bintrayRepo = 'liferay-mobile'
+	bintrayOrg = 'liferay'
 
-    siteUrl = 'https://github.com/liferay-mobile/liferay-push-android'
-    gitUrl = 'https://github.com/liferay-mobile/liferay-push-android.git'
+	siteUrl = 'https://github.com/liferay-mobile/liferay-push-android'
+	gitUrl = 'https://github.com/liferay-mobile/liferay-push-android.git'
 
-    developerId = '75308789'
-    developerName = 'Victor'
-    developerEmail = 'gagranta@gmail.com'
+	developerId = '75308789'
+	developerName = 'Victor'
+	developerEmail = 'gagranta@gmail.com'
 
-    licenseName = 'GNU Lesser General Public License, version 2.1'
-    licenseUrl = 'http://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html'
-    allLicenses = ["LGPL-2.1"]
+	licenseName = 'GNU Lesser General Public License, version 2.1'
+	licenseUrl = 'http://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html'
+	allLicenses = ["LGPL-2.1"]
 }
 
-
 android {
-    compileSdkVersion 29
-    buildToolsVersion '29.0.2'
+	compileSdkVersion 29
+	buildToolsVersion '29.0.2'
 
-    defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
-    }
+	defaultConfig {
+		minSdkVersion 21
+		targetSdkVersion 29
+	}
 
-    lintOptions {
-        disable 'InvalidPackage'
-    }
+	lintOptions {
+		disable 'InvalidPackage'
+	}
 
-    packagingOptions {
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/NOTICE'
-    }
+	packagingOptions {
+		exclude 'META-INF/LICENSE'
+		exclude 'META-INF/NOTICE'
+	}
 
-    sourceSets {
-        main {
-            java.srcDirs += 'src/gen/java'
-        }
+	sourceSets {
+		main {
+			java.srcDirs += 'src/gen/java'
+		}
 
-        test {
-            java.srcDirs += 'build/generated/source/r/debug'
-        }
-    }
-    testOptions.unitTests.includeAndroidResources true
+		test {
+			java.srcDirs += 'build/generated/source/r/debug'
+		}
+	}
+	testOptions.unitTests.includeAndroidResources true
 }
 
 def srcDirs = files(android.sourceSets.main.java.srcDirs)
 
 task coverage(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-    description = "Coverage Report"
+	description = "Coverage Report"
 
-    classDirectories = fileTree(dir: "$buildDir/intermediates/classes/debug",
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/BuildConfig.*',
-                       '**/Manifest*.*',
-                       '**/BitmapRequestBuilder.class',
-                       '**/DrawableRequestBuilder.class',
-                       '**/GifRequestBuilder.class'])
+	classDirectories = fileTree(dir: "$buildDir/intermediates/classes/debug",
+		excludes: ['**/R.class',
+		           '**/R$*.class',
+		           '**/BuildConfig.*',
+		           '**/Manifest*.*',
+		           '**/BitmapRequestBuilder.class',
+		           '**/DrawableRequestBuilder.class',
+		           '**/GifRequestBuilder.class'])
 
-    sourceDirectories = srcDirs
-    executionData = files("$buildDir/jacoco/testDebug.exec")
+	sourceDirectories = srcDirs
+	executionData = files("$buildDir/jacoco/testDebug.exec")
 
-    reports {
-        html.enabled = true
-        xml.enabled = true
-    }
+	reports {
+		html.enabled = true
+		xml.enabled = true
+	}
 }
 
 coveralls {
-    jacocoReportPath = "$buildDir/reports/jacoco/coverage/coverage.xml"
-    sourceDirs = srcDirs.files.absolutePath
+	jacocoReportPath = "$buildDir/reports/jacoco/coverage/coverage.xml"
+	sourceDirs = srcDirs.files.absolutePath
 }
 
 apply from: 'install.gradle'

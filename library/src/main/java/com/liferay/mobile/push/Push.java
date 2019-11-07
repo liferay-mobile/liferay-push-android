@@ -15,19 +15,15 @@
 package com.liferay.mobile.push;
 
 import android.content.Context;
-
 import android.os.AsyncTask;
-
 import com.liferay.mobile.android.callback.typed.JSONObjectCallback;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
 import com.liferay.mobile.android.util.PortalVersion;
 import com.liferay.mobile.push.task.GoogleCloudMessagingAsyncTask;
 import com.liferay.mobile.push.util.GoogleServices;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -66,12 +62,10 @@ public class Push {
 		try {
 			_subscriber.subscribe();
 
-			AsyncTask task = new GoogleCloudMessagingAsyncTask(
-				context, senderId, _googleServices);
+			AsyncTask task = new GoogleCloudMessagingAsyncTask(context, senderId, _googleServices);
 
 			task.execute();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			_subscriber.unsubscribe();
 
 			throw e;
@@ -82,8 +76,7 @@ public class Push {
 		getService().addPushNotificationsDevice(registrationId, FIREBASE);
 	}
 
-	public void send(List<Long> toUserIds, JSONObject pushNotification)
-		throws Exception {
+	public void send(List<Long> toUserIds, JSONObject pushNotification) throws Exception {
 
 		JSONArray toUserIdsJSONArray = new JSONArray();
 
@@ -91,12 +84,10 @@ public class Push {
 			toUserIdsJSONArray.put(toUserId);
 		}
 
-		getService().sendPushNotification(
-			toUserIdsJSONArray, pushNotification.toString());
+		getService().sendPushNotification(toUserIdsJSONArray, pushNotification.toString());
 	}
 
-	public void send(long toUserId, JSONObject pushNotification)
-		throws Exception {
+	public void send(long toUserId, JSONObject pushNotification) throws Exception {
 
 		List<Long> toUserIds = new ArrayList<Long>();
 		toUserIds.add(toUserId);
@@ -120,19 +111,16 @@ public class Push {
 	public interface OnFailure {
 
 		void onFailure(Exception e);
-
 	}
 
 	public interface OnPushNotification {
 
 		void onPushNotification(JSONObject pushNotification);
-
 	}
 
 	public interface OnSuccess {
 
 		void onSuccess(JSONObject jsonObject);
-
 	}
 
 	protected Push(Session session) {
@@ -154,13 +142,11 @@ public class Push {
 					onSuccess.onSuccess(jsonObject);
 				}
 			}
-
 		});
 	}
 
 	protected PushNotificationsDeviceServiceWrapper getService() {
-		return new PushNotificationsDeviceServiceWrapper(
-			_session, _portalVersion);
+		return new PushNotificationsDeviceServiceWrapper(_session, _portalVersion);
 	}
 
 	protected void setGoogleServices(GoogleServices googleServices) {
@@ -175,5 +161,4 @@ public class Push {
 	private int _portalVersion = PortalVersion.V_6_2;
 	private Session _session;
 	private PushSubscriber _subscriber;
-
 }

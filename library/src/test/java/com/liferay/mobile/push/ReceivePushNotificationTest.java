@@ -14,15 +14,11 @@
 
 package com.liferay.mobile.push;
 
-import android.content.BroadcastReceiver;
 import android.content.Intent;
-
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.liferay.mobile.push.Push.OnPushNotification;
 import com.liferay.mobile.push.util.GoogleServices;
-
 import junit.framework.Assert;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -32,10 +28,6 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.ShadowApplication;
-import org.robolectric.shadows.ShadowApplication.Wrapper;
-
-import java.util.List;
 
 /**
  * @author Bruno Farache
@@ -51,8 +43,8 @@ public class ReceivePushNotificationTest extends BaseTest {
 
 		PushNotificationsService service = Robolectric.setupService(PushNotificationsService.class);
 
-		Intent intent = new Intent(
-			RuntimeEnvironment.application.getApplicationContext(), PushNotificationsService.class);
+		Intent intent = new Intent(RuntimeEnvironment.application.getApplicationContext(),
+			PushNotificationsService.class);
 
 		JSONObject payload = new JSONObject();
 		payload.put(body, message);
@@ -61,8 +53,7 @@ public class ReceivePushNotificationTest extends BaseTest {
 
 		GoogleServices googleServices = Mockito.spy(GoogleServices.class);
 
-		Mockito.when(
-			googleServices.getMessageType(service, intent))
+		Mockito.when(googleServices.getMessageType(service, intent))
 			.thenReturn(GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE);
 
 		service.setGoogleServices(googleServices);
@@ -74,17 +65,13 @@ public class ReceivePushNotificationTest extends BaseTest {
 			@Override
 			public void onPushNotification(JSONObject pushNotification) {
 				try {
-					Assert.assertEquals(
-						message, pushNotification.getString(body));
-				}
-				catch (JSONException je) {
+					Assert.assertEquals(message, pushNotification.getString(body));
+				} catch (JSONException je) {
 					Assert.fail(je.getMessage());
 				}
 			}
-
 		});
 
 		service.onHandleWork(intent);
 	}
-
 }

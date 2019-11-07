@@ -26,5 +26,4 @@ public class PushNotificationReceiverException extends Exception {
 	public PushNotificationReceiverException(Throwable throwable) {
 		super(throwable);
 	}
-
 }

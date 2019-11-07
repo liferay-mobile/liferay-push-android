@@ -15,12 +15,10 @@
 package com.liferay.mobile.push;
 
 import android.content.Context;
-
 import com.liferay.mobile.android.auth.Authentication;
 import com.liferay.mobile.android.auth.basic.BasicAuthentication;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
-
 import org.junit.Before;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.ShadowLooper;
@@ -62,12 +60,10 @@ public abstract class BaseTest {
 			ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
 			Thread.sleep(1000);
 			ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
-		}
-		catch (InterruptedException e) {
+		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	protected Push push;
-
 }

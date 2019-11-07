@@ -16,7 +16,6 @@ package com.liferay.mobile.push;
 
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.util.PortalVersion;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,19 +24,20 @@ import org.json.JSONObject;
  */
 public class PushNotificationsDeviceServiceWrapper {
 
-	public PushNotificationsDeviceServiceWrapper(
-		Session session, int portalVersion) {
+	public PushNotificationsDeviceServiceWrapper(Session session, int portalVersion) {
 
 		if (portalVersion == PortalVersion.V_6_2) {
-			service62 = new com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService(session);
-		}
-		else {
-			service7 = new com.liferay.mobile.android.v70.pushnotificationsdevice.PushNotificationsDeviceService(session);
+			service62 =
+				new com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService(
+					session);
+		} else {
+			service7 =
+				new com.liferay.mobile.android.v70.pushnotificationsdevice.PushNotificationsDeviceService(
+					session);
 		}
 	}
 
-	public JSONObject addPushNotificationsDevice(String token, String platform)
-		throws Exception {
+	public JSONObject addPushNotificationsDevice(String token, String platform) throws Exception {
 
 		if (service62 != null) {
 			return service62.addPushNotificationsDevice(token, platform);
@@ -46,8 +46,7 @@ public class PushNotificationsDeviceServiceWrapper {
 		return service7.addPushNotificationsDevice(token, platform);
 	}
 
-	public JSONObject deletePushNotificationsDevice(String token)
-		throws Exception {
+	public JSONObject deletePushNotificationsDevice(String token) throws Exception {
 
 		if (service62 != null) {
 			return service62.deletePushNotificationsDevice(token);
@@ -56,8 +55,7 @@ public class PushNotificationsDeviceServiceWrapper {
 		return service7.deletePushNotificationsDevice(token);
 	}
 
-	public void sendPushNotification(JSONArray toUserIds, String payload)
-		throws Exception {
+	public void sendPushNotification(JSONArray toUserIds, String payload) throws Exception {
 
 		if (service62 != null) {
 			service62.sendPushNotification(toUserIds, payload);
@@ -67,7 +65,8 @@ public class PushNotificationsDeviceServiceWrapper {
 		service7.sendPushNotification(toUserIds, payload);
 	}
 
-	protected com.liferay.mobile.android.v70.pushnotificationsdevice.PushNotificationsDeviceService service7;
-	protected com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService service62;
-
+	protected com.liferay.mobile.android.v70.pushnotificationsdevice.PushNotificationsDeviceService
+		service7;
+	protected com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService
+		service62;
 }

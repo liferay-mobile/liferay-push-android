@@ -16,7 +16,6 @@ package com.liferay.mobile.android.v62.pushnotificationsdevice;
 
 import com.liferay.mobile.android.service.BaseService;
 import com.liferay.mobile.android.service.Session;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,9 +38,10 @@ public class PushNotificationsDeviceService extends BaseService {
 			_params.put("token", checkNull(token));
 			_params.put("platform", checkNull(platform));
 
-			_command.put("/push-notifications-portlet.pushnotificationsdevice/add-push-notifications-device", _params);
-		}
-		catch (JSONException _je) {
+			_command.put(
+				"/push-notifications-portlet.pushnotificationsdevice/add-push-notifications-device",
+				_params);
+		} catch (JSONException _je) {
 			throw new Exception(_je);
 		}
 
@@ -62,9 +62,10 @@ public class PushNotificationsDeviceService extends BaseService {
 
 			_params.put("token", checkNull(token));
 
-			_command.put("/push-notifications-portlet.pushnotificationsdevice/delete-push-notifications-device", _params);
-		}
-		catch (JSONException _je) {
+			_command.put(
+				"/push-notifications-portlet.pushnotificationsdevice/delete-push-notifications-device",
+				_params);
+		} catch (JSONException _je) {
 			throw new Exception(_je);
 		}
 
@@ -86,16 +87,18 @@ public class PushNotificationsDeviceService extends BaseService {
 			_params.put("toUserIds", checkNull(toUserIds));
 			_params.put("payload", checkNull(payload));
 
-			_command.put("/push-notifications-portlet.pushnotificationsdevice/send-push-notification", _params);
-		}
-		catch (JSONException _je) {
+			_command.put(
+				"/push-notifications-portlet.pushnotificationsdevice/send-push-notification",
+				_params);
+		} catch (JSONException _je) {
 			throw new Exception(_je);
 		}
 
 		session.invoke(_command);
 	}
 
-	public void sendPushNotification(String platform, JSONArray tokens, String payload) throws Exception {
+	public void sendPushNotification(String platform, JSONArray tokens, String payload)
+		throws Exception {
 		JSONObject _command = new JSONObject();
 
 		try {
@@ -105,13 +108,13 @@ public class PushNotificationsDeviceService extends BaseService {
 			_params.put("tokens", checkNull(tokens));
 			_params.put("payload", checkNull(payload));
 
-			_command.put("/push-notifications-portlet.pushnotificationsdevice/send-push-notification", _params);
-		}
-		catch (JSONException _je) {
+			_command.put(
+				"/push-notifications-portlet.pushnotificationsdevice/send-push-notification",
+				_params);
+		} catch (JSONException _je) {
 			throw new Exception(_je);
 		}
 
 		session.invoke(_command);
 	}
-
 }

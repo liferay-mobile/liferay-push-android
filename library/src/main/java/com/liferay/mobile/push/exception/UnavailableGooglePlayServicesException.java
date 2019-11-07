@@ -22,5 +22,4 @@ public class UnavailableGooglePlayServicesException extends Exception {
 	public UnavailableGooglePlayServicesException(String message) {
 		super(message);
 	}
-
 }

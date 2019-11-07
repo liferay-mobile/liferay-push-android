@@ -15,11 +15,8 @@
 package com.liferay.mobile.push;
 
 import android.content.Context;
-
 import com.liferay.mobile.push.util.GoogleServices;
-
 import junit.framework.Assert;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -46,23 +43,18 @@ public class DeviceRegistrationTest extends BaseTest {
 			public void onSuccess(JSONObject device) {
 				try {
 					Assert.assertNotNull(device);
-					Assert.assertEquals(
-						Push.FIREBASE, device.getString("platform"));
-					Assert.assertEquals(
-						registrationId, device.getString("token"));
-				}
-				catch (JSONException je) {
+					Assert.assertEquals(Push.FIREBASE, device.getString("platform"));
+					Assert.assertEquals(registrationId, device.getString("token"));
+				} catch (JSONException je) {
 					Assert.fail();
 				}
 			}
-
 		}).onFailure(new Push.OnFailure() {
 
 			@Override
 			public void onFailure(Exception e) {
 				Assert.fail(e.getMessage());
 			}
-
 		}).register(registrationId);
 
 		executeAsyncTasks();
@@ -76,8 +68,7 @@ public class DeviceRegistrationTest extends BaseTest {
 
 		final String registrationId = "123";
 
-		Mockito.when(
-			googleServices.getRegistrationId(context, senderId))
+		Mockito.when(googleServices.getRegistrationId(context, senderId))
 			.thenReturn(registrationId);
 
 		push.setGoogleServices(googleServices);
@@ -88,16 +79,12 @@ public class DeviceRegistrationTest extends BaseTest {
 			public void onSuccess(JSONObject device) {
 				try {
 					Assert.assertNotNull(device);
-					Assert.assertEquals(
-						Push.FIREBASE, device.getString("platform"));
-					Assert.assertEquals(
-						registrationId, device.getString("token"));
-				}
-				catch (JSONException je) {
+					Assert.assertEquals(Push.FIREBASE, device.getString("platform"));
+					Assert.assertEquals(registrationId, device.getString("token"));
+				} catch (JSONException je) {
 					Assert.fail();
 				}
 			}
-
 		}).register(context, senderId);
 
 		executeAsyncTasks();
@@ -115,14 +102,11 @@ public class DeviceRegistrationTest extends BaseTest {
 			public void onSuccess(JSONObject device) {
 				try {
 					Assert.assertNotNull(device);
-					Assert.assertEquals(
-						registrationId, device.getString("token"));
-				}
-				catch (JSONException je) {
+					Assert.assertEquals(registrationId, device.getString("token"));
+				} catch (JSONException je) {
 					Assert.fail();
 				}
 			}
-
 		}).unregister(registrationId);
 
 		executeAsyncTasks();
@@ -135,10 +119,8 @@ public class DeviceRegistrationTest extends BaseTest {
 			public void onFailure(Exception e) {
 				Assert.fail(e.getMessage());
 			}
-
 		}).register(registrationId);
 
 		ShadowApplication.runBackgroundTasks();
 	}
-
 }

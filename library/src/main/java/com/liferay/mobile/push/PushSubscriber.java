@@ -15,9 +15,7 @@
 package com.liferay.mobile.push;
 
 import com.liferay.mobile.push.bus.BusUtil;
-
 import com.squareup.otto.Subscribe;
-
 import org.json.JSONObject;
 
 /**
@@ -61,5 +59,4 @@ public class PushSubscriber {
 	}
 
 	protected Push push;
-
 }

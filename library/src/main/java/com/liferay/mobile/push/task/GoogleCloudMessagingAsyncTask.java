@@ -15,11 +15,8 @@
 package com.liferay.mobile.push.task;
 
 import android.content.Context;
-
 import android.os.AsyncTask;
-
 import android.util.Log;
-
 import com.liferay.mobile.push.bus.BusUtil;
 import com.liferay.mobile.push.exception.UnavailableGooglePlayServicesException;
 import com.liferay.mobile.push.util.GoogleServices;
@@ -27,12 +24,10 @@ import com.liferay.mobile.push.util.GoogleServices;
 /**
  * @author Bruno Farache
  */
-public class GoogleCloudMessagingAsyncTask
-	extends AsyncTask<Object, Void, String> {
+public class GoogleCloudMessagingAsyncTask extends AsyncTask<Object, Void, String> {
 
-	public GoogleCloudMessagingAsyncTask(
-			Context context, String senderId, GoogleServices googleServices)
-		throws UnavailableGooglePlayServicesException {
+	public GoogleCloudMessagingAsyncTask(Context context, String senderId,
+		GoogleServices googleServices) throws UnavailableGooglePlayServicesException {
 
 		_context = context.getApplicationContext();
 		_senderId = senderId;
@@ -45,10 +40,8 @@ public class GoogleCloudMessagingAsyncTask
 		String registrationId = null;
 
 		try {
-			registrationId = _googleServices.getRegistrationId(
-				_context, _senderId);
-		}
-		catch (Exception e) {
+			registrationId = _googleServices.getRegistrationId(_context, _senderId);
+		} catch (Exception e) {
 			Log.e(_TAG, "Could not retrieve request token.", e);
 			_exception = e;
 			cancel(true);
@@ -67,12 +60,10 @@ public class GoogleCloudMessagingAsyncTask
 		BusUtil.post(registrationId);
 	}
 
-	private static final String _TAG =
-		GoogleCloudMessagingAsyncTask.class.getSimpleName();
+	private static final String _TAG = GoogleCloudMessagingAsyncTask.class.getSimpleName();
 
 	private Context _context;
 	private Exception _exception;
 	private GoogleServices _googleServices;
 	private String _senderId;
-
 }

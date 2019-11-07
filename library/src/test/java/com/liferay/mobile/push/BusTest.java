@@ -15,7 +15,6 @@
 package com.liferay.mobile.push;
 
 import com.liferay.mobile.push.bus.BusUtil;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -35,10 +34,8 @@ public class BusTest extends BaseTest {
 		try {
 			BusUtil.subscribe(new PushSubscriber(push));
 			BusUtil.unsubscribe(new PushSubscriber(push));
-		}
-		catch (RuntimeException re) {
+		} catch (RuntimeException re) {
 			fail(re.getMessage());
 		}
 	}
-
 }

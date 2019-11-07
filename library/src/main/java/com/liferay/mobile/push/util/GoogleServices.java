@@ -16,18 +16,13 @@ package com.liferay.mobile.push.util;
 
 import android.content.Context;
 import android.content.Intent;
-
 import android.os.Bundle;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-
 import com.liferay.mobile.push.exception.PushNotificationReceiverException;
 import com.liferay.mobile.push.exception.UnavailableGooglePlayServicesException;
-
 import java.io.IOException;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,15 +41,13 @@ public class GoogleServices {
 		String messageType = getMessageType(context, intent);
 
 		if (!GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-			throw new PushNotificationReceiverException(
-				"Unknown message type" + messageType);
+			throw new PushNotificationReceiverException("Unknown message type" + messageType);
 		}
 
 		Bundle extras = intent.getExtras();
 
 		if ((extras == null) || extras.isEmpty()) {
-			throw new PushNotificationReceiverException(
-				"Push notification body is empty.");
+			throw new PushNotificationReceiverException("Push notification body is empty.");
 		}
 
 		String body = extras.getString("gcm.notification.body", null);
@@ -68,14 +61,12 @@ public class GoogleServices {
 			jsonObject.put("body", body);
 
 			return jsonObject;
-		}
-		catch (JSONException je) {
+		} catch (JSONException je) {
 			throw new PushNotificationReceiverException(je);
 		}
 	}
 
-	public String getRegistrationId(Context context, String senderId)
-		throws IOException {
+	public String getRegistrationId(Context context, String senderId) throws IOException {
 
 		return getInstance(context).register(senderId);
 	}
@@ -83,8 +74,7 @@ public class GoogleServices {
 	public void isGooglePlayServicesAvailable(Context context)
 		throws UnavailableGooglePlayServicesException {
 
-		int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(
-			context);
+		int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
 
 		if (result != ConnectionResult.SUCCESS) {
 			String message = GooglePlayServicesUtil.getErrorString(result);
@@ -96,5 +86,4 @@ public class GoogleServices {
 	protected GoogleCloudMessaging getInstance(Context context) {
 		return GoogleCloudMessaging.getInstance(context);
 	}
-
 }

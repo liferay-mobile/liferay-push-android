@@ -18,16 +18,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import android.support.v4.content.WakefulBroadcastReceiver;
-
 /**
  * @author Bruno Farache
  */
-public abstract class PushNotificationsReceiver
-	extends BroadcastReceiver {
+public abstract class PushNotificationsReceiver extends BroadcastReceiver {
 
 	public static int JOB_ID = 10001;
-	
+
 	public abstract String getServiceClassName();
 
 	@Override
@@ -41,5 +38,4 @@ public abstract class PushNotificationsReceiver
 			throw new IllegalArgumentException("Not found service of class " + className);
 		}
 	}
-
 }

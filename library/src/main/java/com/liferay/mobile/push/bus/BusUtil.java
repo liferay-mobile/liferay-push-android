@@ -15,7 +15,6 @@
 package com.liferay.mobile.push.bus;
 
 import android.util.Log;
-
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 
@@ -39,8 +38,7 @@ public class BusUtil {
 	public static void unsubscribe(Object object) {
 		try {
 			getInstance().unregister(object);
-		}
-		catch (IllegalArgumentException iae) {
+		} catch (IllegalArgumentException iae) {
 			Log.w(_TAG, "Could not unsubscribe.", iae);
 		}
 	}
@@ -56,5 +54,4 @@ public class BusUtil {
 	private static final String _TAG = BusUtil.class.getSimpleName();
 
 	private static Bus _bus;
-
 }
