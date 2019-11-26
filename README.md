@@ -214,4 +214,4 @@ If you want to stop receiving push notifications on a device, you can unregister
 Push.with(session).unregister(registrationId);
 ```
 
-Users can only unregister devices they own.
+Users can only unregister devices they own and they need to have the MANAGE_DEVICES permission.
