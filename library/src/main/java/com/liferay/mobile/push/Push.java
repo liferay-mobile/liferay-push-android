@@ -27,7 +27,6 @@ import com.liferay.mobile.android.callback.typed.JSONObjectCallback;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
 import com.liferay.mobile.android.util.PortalVersion;
-import com.liferay.mobile.push.util.GoogleServices;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -170,15 +169,10 @@ public class Push {
 		return new PushNotificationsDeviceServiceWrapper(_session, _portalVersion);
 	}
 
-	protected void setGoogleServices(GoogleServices googleServices) {
-		_googleServices = googleServices;
-	}
-
 	protected OnFailure onFailure;
 	protected OnPushNotification onPushNotification;
 	protected OnSuccess onSuccess;
 
-	private GoogleServices _googleServices = new GoogleServices();
 	private int _portalVersion = PortalVersion.V_6_2;
 	private Session _session;
 	private PushSubscriber _subscriber;
