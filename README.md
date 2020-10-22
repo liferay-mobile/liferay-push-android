@@ -48,20 +48,21 @@ Since version 1.2.0 you have to add a new property when declaring the PushServic
 To receive push notifications, your app must register itself to the portal first. On the portal side, each
 device is tied to a user. Each user can have multiple registered devices. A device is represented by a device token string. Google calls this the `registrationId`.
 
-To register a device, we need a `SENDER_ID`, the id of our project in firebase. Read [Firebase's documentation](https://firebase.google.com/docs/cloud-messaging/) to learn how to get the `SENDER_ID`.
+To register a device, we need to configure our project with firebase, for doing so, we need to add the application to our firebase project settings:
 
-The `SENDER_ID` is available, after creating a firebase project, in the *Cloud Messaging* tab under the project settings:
+<img src="docs/images/Register Android Application.png">
 
-<img src="docs/images/Firebase Console Sender Id.png">
+Click on adding the android application and follow the instructions.
 
-After obtaining the `SENDER_ID` it's easy to register a device with *Liferay Push for Android*, you just have to call to the following method:
+
+After registering the app in firebase, it's easy to register a device with *Liferay Push for Android*, you just have to call to the following method:
 
 ```java
 import com.liferay.mobile.push.Push;
 
 Session session = new SessionImpl("http://localhost:8080", new BasicAuthentication("test@liferay.com", "test"));
 
-Push.with(session).register(this, SENDER_ID);
+Push.with(session).register();
 ```
 
 **If you want to use Liferay 7.x you should manually specify the version** with a call like this:
@@ -91,7 +92,7 @@ Push.with(session)
 		}
 
 	})
-	.register(this, SENDER_ID);
+	.register();
 ```
 
 The `onSuccess` and `onFailure` callbacks are optional, but it's good practice to implement both. By doing so, your app can persist the registrationId device token or tell the user that an error occurred.
