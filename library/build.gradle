@@ -6,7 +6,9 @@ apply from: 'https://raw.githubusercontent.com/brunofarache/liferay-mobile-sdk/m
 format.workingDir = 'src'
 
 dependencies {
-	implementation(group: 'com.google.android.gms', name: 'play-services-gcm', version: '16.1.0') {}
+
+	implementation 'com.google.firebase:firebase-messaging:20.3.0'
+
 	implementation('com.liferay.mobile:liferay-android-sdk-core:7.1.+') {
 		exclude group: 'com.google.android'
 		exclude module: 'customtabs'
