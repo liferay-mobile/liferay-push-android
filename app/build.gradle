@@ -41,7 +41,7 @@ android {
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-	implementation('com.liferay.mobile:liferay-push:1.3.0')
+	implementation project(':liferay-push')
 
 	implementation('com.liferay.mobile:liferay-android-sdk-core:7.1.+') {
 		exclude group: 'com.google.android'
