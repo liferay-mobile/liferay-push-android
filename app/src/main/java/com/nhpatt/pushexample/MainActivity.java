@@ -25,8 +25,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 		findViewById(R.id.push_send).setOnClickListener(this);
 
-		Session session = new SessionImpl("http://screens.liferay.org.es",
-			new BasicAuthentication("push@liferay.com", "push"));
+		Session session = new SessionImpl("http://10.0.2.2:8080",
+			new BasicAuthentication("test@liferay.com", "test"));
 
 		try {
 			push = Push.with(session);
@@ -35,7 +35,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			push.onSuccess(success -> {
 				Log.d(TAG, success.toString());
 				push.onPushNotification(jsonObject -> runOnUiThread(() -> showToast(jsonObject)));
-			}).onFailure(this::logError).register(this, "862746724485");
+			}).onFailure(this::logError).register();
 		} catch (Exception e) {
 			logError(e);
 		}
