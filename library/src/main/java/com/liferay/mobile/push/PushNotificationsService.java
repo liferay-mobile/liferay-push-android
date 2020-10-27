@@ -15,11 +15,14 @@
 package com.liferay.mobile.push;
 
 import android.content.Intent;
+
 import androidx.core.app.JobIntentService;
+
 import com.liferay.mobile.push.Push.OnPushNotification;
 import com.liferay.mobile.push.bus.BusUtil;
 import com.liferay.mobile.push.exception.PushNotificationReceiverException;
-import com.liferay.mobile.push.util.GoogleServices;
+import com.liferay.mobile.push.util.PushNotificationUtil;
+
 import org.json.JSONObject;
 
 /**
@@ -30,7 +33,7 @@ public class PushNotificationsService extends JobIntentService implements OnPush
 	@Override
 	protected void onHandleWork(Intent intent) {
 		try {
-			JSONObject pushNotification = _googleService.getPushNotification(this, intent);
+			JSONObject pushNotification = PushNotificationUtil.getPushNotification(this, intent);
 
 			BusUtil.post(pushNotification);
 			onPushNotification(pushNotification);
@@ -42,10 +45,4 @@ public class PushNotificationsService extends JobIntentService implements OnPush
 	@Override
 	public void onPushNotification(JSONObject pushNotification) {
 	}
-
-	public void setGoogleServices(GoogleServices googleServices) {
-		_googleService = googleServices;
-	}
-
-	private GoogleServices _googleService = new GoogleServices();
 }

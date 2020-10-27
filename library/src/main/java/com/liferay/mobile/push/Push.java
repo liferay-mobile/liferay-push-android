@@ -15,15 +15,22 @@
 package com.liferay.mobile.push;
 
 import android.content.Context;
-import android.os.AsyncTask;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
 import com.liferay.mobile.android.callback.typed.JSONObjectCallback;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
 import com.liferay.mobile.android.util.PortalVersion;
-import com.liferay.mobile.push.task.GoogleCloudMessagingAsyncTask;
-import com.liferay.mobile.push.util.GoogleServices;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -58,18 +65,31 @@ public class Push {
 		return this;
 	}
 
+	public void register() {
+		FirebaseInstanceId.getInstance().getInstanceId()
+				.addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+					@Override
+					public void onComplete(@NonNull Task<InstanceIdResult> task) {
+						if (!task.isSuccessful()) {
+							return;
+						}
+
+						String token = task.getResult().getToken();
+
+						try {
+							register(token);
+						} catch (Exception e) {
+							if (Push.this.onFailure != null) {
+								Push.this.onFailure.onFailure(e);
+							}
+						}
+					}
+				});
+	}
+
+	@Deprecated
 	public void register(Context context, String senderId) throws Exception {
-		try {
-			_subscriber.subscribe();
-
-			AsyncTask task = new GoogleCloudMessagingAsyncTask(context, senderId, _googleServices);
-
-			task.execute();
-		} catch (Exception e) {
-			_subscriber.unsubscribe();
-
-			throw e;
-		}
+		register();
 	}
 
 	public void register(String registrationId) throws Exception {
@@ -149,15 +169,10 @@ public class Push {
 		return new PushNotificationsDeviceServiceWrapper(_session, _portalVersion);
 	}
 
-	protected void setGoogleServices(GoogleServices googleServices) {
-		_googleServices = googleServices;
-	}
-
 	protected OnFailure onFailure;
 	protected OnPushNotification onPushNotification;
 	protected OnSuccess onSuccess;
 
-	private GoogleServices _googleServices = new GoogleServices();
 	private int _portalVersion = PortalVersion.V_6_2;
 	private Session _session;
 	private PushSubscriber _subscriber;
