@@ -8,7 +8,7 @@ format.workingDir = 'src'
 dependencies {
 	implementation 'com.google.firebase:firebase-messaging:20.3.0'
 
-	implementation('com.liferay.mobile:liferay-android-sdk-core:7.1.+') {
+	implementation('com.liferay.mobile:liferay-android-sdk-core:7.1.3') {
 		exclude group: 'com.google.android'
 		exclude module: 'customtabs'
 	}
@@ -98,4 +98,3 @@ coveralls {
 }
 
 apply from: 'install.gradle'
-apply from: 'bintray.gradle'
